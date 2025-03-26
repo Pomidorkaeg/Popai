@@ -11,6 +11,7 @@ permissions:
   pages: write
   id-token: write
   deployments: write
+  security-events: write
 
 # Allow only one concurrent deployment, skipping the queued ones
 concurrency:
