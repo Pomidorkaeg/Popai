@@ -87,3 +87,4 @@ jobs:
           preview: false
         env:
           GITHUB_PAGES: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
