@@ -96,3 +96,8 @@ jobs:
           GITHUB_WORKFLOW: ${{ github.workflow }}
           GITHUB_EVENT_NAME: ${{ github.event_name }}
           GITHUB_WORKSPACE: ${{ github.workspace }}
+          GITHUB_HEAD_REF: ${{ github.head_ref }}
+          GITHUB_BASE_REF: ${{ github.base_ref }}
+          GITHUB_SERVER_URL: ${{ github.server_url }}
+          GITHUB_API_URL: ${{ github.api_url }}
+          GITHUB_GRAPHQL_URL: ${{ github.graphql_url }}
