@@ -1,20 +1,23 @@
-
 import { Suspense, lazy } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { ThemeProvider } from '@/components/theme-provider'
+import Layout from '@/components/layout/Layout'
+import Home from '@/pages/Home'
+import Team from '@/pages/Team'
+import Tournaments from '@/pages/Tournaments'
+import TournamentDetails from '@/pages/TournamentDetails'
+import NotFound from '@/pages/NotFound'
 
 // Lazy-load all route components
 const Index = lazy(() => import("./pages/Index"));
-const Team = lazy(() => import("./pages/Team"));
 const News = lazy(() => import("./pages/News"));
 const Matches = lazy(() => import("./pages/Matches"));
-const Tournaments = lazy(() => import("./pages/Tournaments"));
 const Media = lazy(() => import("./pages/Media"));
 const Contacts = lazy(() => import("./pages/Contacts"));
-const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Admin routes
 const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
@@ -43,37 +46,39 @@ const queryClient = new QueryClient({
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <HashRouter>
-          <Suspense fallback={<PageLoading />}>
-            <Routes>
-              {/* Public routes */}
-              <Route path="/" element={<Index />} />
-              <Route path="/team" element={<Team />} />
-              <Route path="/news" element={<News />} />
-              <Route path="/matches" element={<Matches />} />
-              <Route path="/tournaments" element={<Tournaments />} />
-              <Route path="/tournaments/:id" element={<Tournaments />} />
-              <Route path="/media" element={<Media />} />
-              <Route path="/contacts" element={<Contacts />} />
-              
-              {/* Admin routes */}
-              <Route path="/admin" element={<AdminDashboard />}>
-                <Route index element={<AdminHome />} />
-                <Route path="players" element={<PlayersManagement />} />
-                <Route path="coaches" element={<CoachesManagement />} />
-                <Route path="teams" element={<TeamsManagement />} />
-                <Route path="tournaments" element={<AdminHome />} />
-              </Route>
-              
-              {/* 404 */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-        </HashRouter>
-      </TooltipProvider>
+      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+        <Router>
+          <Layout>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              <Routes>
+                {/* Public routes */}
+                <Route path="/" element={<Home />} />
+                <Route path="/team" element={<Team />} />
+                <Route path="/news" element={<News />} />
+                <Route path="/matches" element={<Matches />} />
+                <Route path="/tournaments" element={<Tournaments />} />
+                <Route path="/tournaments/:id" element={<TournamentDetails />} />
+                <Route path="/media" element={<Media />} />
+                <Route path="/contacts" element={<Contacts />} />
+                
+                {/* Admin routes */}
+                <Route path="/admin" element={<AdminDashboard />}>
+                  <Route index element={<AdminHome />} />
+                  <Route path="players" element={<PlayersManagement />} />
+                  <Route path="coaches" element={<CoachesManagement />} />
+                  <Route path="teams" element={<TeamsManagement />} />
+                  <Route path="tournaments" element={<AdminHome />} />
+                </Route>
+                
+                {/* 404 */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </TooltipProvider>
+          </Layout>
+        </Router>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 };
