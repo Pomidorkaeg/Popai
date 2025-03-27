@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from '@/components/theme-provider'
 import Layout from '@/components/layout/Layout'
 import Home from '@/pages/Home'
@@ -42,7 +42,6 @@ const queryClient = new QueryClient({
   },
 });
 
-// Always use HashRouter for compatibility with GitHub Pages
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
@@ -50,7 +49,7 @@ const App = () => {
         <Toaster />
         <Sonner />
         <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-          <HashRouter>
+          <BrowserRouter basename="/fdfsdq">
             <Suspense fallback={<PageLoading />}>
               <Routes>
                 {/* Public routes */}
@@ -76,7 +75,7 @@ const App = () => {
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>
-          </HashRouter>
+          </BrowserRouter>
         </ThemeProvider>
       </TooltipProvider>
     </QueryClientProvider>
