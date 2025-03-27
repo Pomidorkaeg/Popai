@@ -35,7 +35,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          VITE_BASE_URL: /fdfsdq/
+          VITE_BASE_URL: ./
       
       - name: Upload artifact
         uses: actions/upload-artifact@v4
