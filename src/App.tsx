@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from '@/components/theme-provider'
 import Layout from '@/components/layout/Layout'
 import Home from '@/pages/Home'
@@ -49,7 +49,7 @@ const App = () => {
         <Toaster />
         <Sonner />
         <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-          <BrowserRouter basename="/fdfsdq">
+          <HashRouter>
             <Suspense fallback={<PageLoading />}>
               <Routes>
                 {/* Public routes */}
@@ -75,7 +75,7 @@ const App = () => {
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>
-          </BrowserRouter>
+          </HashRouter>
         </ThemeProvider>
       </TooltipProvider>
     </QueryClientProvider>
