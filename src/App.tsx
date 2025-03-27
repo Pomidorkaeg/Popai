@@ -1,4 +1,4 @@
-import { Suspense, lazy } from "react";
+import { Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -33,14 +33,7 @@ const PageLoading = () => (
   </div>
 );
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 60 * 1000, // 1 minute
-      refetchOnWindowFocus: false,
-    },
-  },
-});
+const queryClient = new QueryClient();
 
 const App = () => {
   return (
@@ -50,31 +43,17 @@ const App = () => {
         <Sonner />
         <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
           <HashRouter>
-            <Suspense fallback={<PageLoading />}>
-              <Routes>
-                {/* Public routes */}
-                <Route path="/" element={<Index />} />
-                <Route path="/team" element={<Team />} />
-                <Route path="/news" element={<News />} />
-                <Route path="/matches" element={<Matches />} />
-                <Route path="/tournaments" element={<Tournaments />} />
-                <Route path="/tournaments/:id" element={<TournamentDetails />} />
-                <Route path="/media" element={<Media />} />
-                <Route path="/contacts" element={<Contacts />} />
-                
-                {/* Admin routes */}
-                <Route path="/admin" element={<AdminDashboard />}>
-                  <Route index element={<AdminHome />} />
-                  <Route path="players" element={<PlayersManagement />} />
-                  <Route path="coaches" element={<CoachesManagement />} />
-                  <Route path="teams" element={<TeamsManagement />} />
-                  <Route path="tournaments" element={<AdminHome />} />
-                </Route>
-                
-                {/* 404 */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
+            <Layout>
+              <Suspense fallback={<div>Загрузка...</div>}>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/team" element={<Team />} />
+                  <Route path="/tournaments" element={<Tournaments />} />
+                  <Route path="/tournaments/:id" element={<TournamentDetails />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </Layout>
           </HashRouter>
         </ThemeProvider>
       </TooltipProvider>
