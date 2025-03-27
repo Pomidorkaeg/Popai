@@ -1,81 +1,61 @@
-import { Suspense, lazy } from "react";
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from 'react-router-dom'
+import { Toaster } from '@/components/ui/toaster'
+import { ThemeProvider } from '@/components/theme-provider'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { Toaster as Sonner } from '@/components/ui/sonner'
+import { TooltipProvider } from '@/components/ui/tooltip'
+import { Suspense, lazy } from 'react'
+import { Loader2 } from 'lucide-react'
 
-// Оптимизированная ленивая загрузка с предварительной загрузкой
-const Index = lazy(() => import("./pages/Index"));
-const Team = lazy(() => import("./pages/Team"));
-const News = lazy(() => import("./pages/News"));
-const Matches = lazy(() => import("./pages/Matches"));
-const Tournaments = lazy(() => import("./pages/Tournaments"));
-const Media = lazy(() => import("./pages/Media"));
-const Contacts = lazy(() => import("./pages/Contacts"));
-const NotFound = lazy(() => import("./pages/NotFound"));
+// Ленивая загрузка компонентов
+const Layout = lazy(() => import('@/components/layout/Layout'))
+const Home = lazy(() => import('@/pages/Home'))
+const Team = lazy(() => import('@/pages/Team'))
+const Tournaments = lazy(() => import('@/pages/Tournaments'))
+const TournamentDetails = lazy(() => import('@/pages/TournamentDetails'))
+const NotFound = lazy(() => import('@/pages/NotFound'))
 
-// Админские маршруты
-const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
-const AdminHome = lazy(() => import("./pages/admin/AdminHome"));
-const PlayersManagement = lazy(() => import("./pages/admin/PlayersManagement"));
-const CoachesManagement = lazy(() => import("./pages/admin/CoachesManagement"));
-const TeamsManagement = lazy(() => import("./pages/admin/TeamsManagement"));
-
-// Улучшенный компонент загрузки
-const PageLoading = () => (
-  <div className="flex h-screen w-full items-center justify-center bg-white">
-    <div className="h-8 w-8 animate-spin rounded-full border-2 border-green-600 border-t-transparent"></div>
-  </div>
-);
-
+// Создаем клиент React Query
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 60 * 1000, // 1 минута
+      staleTime: 1000 * 60 * 5, // 5 минут
+      retry: 1,
       refetchOnWindowFocus: false,
-      retry: 1, // Уменьшаем количество попыток
-      timeout: 5000, // Таймаут 5 секунд
     },
   },
-});
+})
 
-const App = () => {
+function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter basename={import.meta.env.BASE_URL}>
-          <Suspense fallback={<PageLoading />}>
-            <Routes>
-              {/* Публичные маршруты */}
-              <Route path="/" element={<Index />} />
-              <Route path="/team" element={<Team />} />
-              <Route path="/news" element={<News />} />
-              <Route path="/matches" element={<Matches />} />
-              <Route path="/tournaments" element={<Tournaments />} />
-              <Route path="/tournaments/:id" element={<Tournaments />} />
-              <Route path="/media" element={<Media />} />
-              <Route path="/contacts" element={<Contacts />} />
-              
-              {/* Админские маршруты */}
-              <Route path="/admin" element={<AdminDashboard />}>
-                <Route index element={<AdminHome />} />
-                <Route path="players" element={<PlayersManagement />} />
-                <Route path="coaches" element={<CoachesManagement />} />
-                <Route path="teams" element={<TeamsManagement />} />
-                <Route path="tournaments" element={<AdminHome />} />
-              </Route>
-              
-              {/* 404 */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-        </BrowserRouter>
-      </TooltipProvider>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <TooltipProvider>
+          <Router>
+            <Suspense fallback={
+              <div className="flex items-center justify-center min-h-screen">
+                <Loader2 className="h-8 w-8 animate-spin" />
+              </div>
+            }>
+              <Routes>
+                <Route path="/" element={<Layout />}>
+                  <Route index element={<Home />} />
+                  <Route path="team" element={<Team />} />
+                  <Route path="tournaments" element={<Tournaments />} />
+                  <Route path="tournaments/:id" element={<TournamentDetails />} />
+                  <Route path="*" element={<NotFound />} />
+                </Route>
+              </Routes>
+            </Suspense>
+            <Toaster />
+            <Sonner />
+          </Router>
+        </TooltipProvider>
+      </ThemeProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
-  );
-};
+  )
+}
 
-export default App;
+export default App

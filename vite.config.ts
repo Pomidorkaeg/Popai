@@ -30,7 +30,7 @@ export default defineConfig(({ mode }) => ({
     target: 'es2015',  // Целевые современные браузеры для уменьшения размера бандла
     // Разделяем код на чанки для оптимизации загрузки
     chunkSizeWarningLimit: 500,
-    sourcemap: false,
+    sourcemap: true,
     // Добавляем предварительную загрузку критических ресурсов
     assetsInlineLimit: 4096,
     // Оптимизируем изображения
@@ -47,7 +47,7 @@ export default defineConfig(({ mode }) => ({
     },
   },
   // For GitHub Pages, use "/" (absolute paths)
-  base: '/',
+  base: '/fdfsdq/',
   // Добавляем оптимизации для более быстрой разработки
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom'],
