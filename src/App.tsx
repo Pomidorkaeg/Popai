@@ -49,33 +49,29 @@ const App = () => {
       <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
         <Router>
           <Layout>
-            <TooltipProvider>
-              <Toaster />
-              <Sonner />
-              <Routes>
-                {/* Public routes */}
-                <Route path="/" element={<Home />} />
-                <Route path="/team" element={<Team />} />
-                <Route path="/news" element={<News />} />
-                <Route path="/matches" element={<Matches />} />
-                <Route path="/tournaments" element={<Tournaments />} />
-                <Route path="/tournaments/:id" element={<TournamentDetails />} />
-                <Route path="/media" element={<Media />} />
-                <Route path="/contacts" element={<Contacts />} />
-                
-                {/* Admin routes */}
-                <Route path="/admin" element={<AdminDashboard />}>
-                  <Route index element={<AdminHome />} />
-                  <Route path="players" element={<PlayersManagement />} />
-                  <Route path="coaches" element={<CoachesManagement />} />
-                  <Route path="teams" element={<TeamsManagement />} />
-                  <Route path="tournaments" element={<AdminHome />} />
-                </Route>
-                
-                {/* 404 */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </TooltipProvider>
+            <Routes>
+              {/* Public routes */}
+              <Route path="/" element={<Home />} />
+              <Route path="/team" element={<Team />} />
+              <Route path="/news" element={<News />} />
+              <Route path="/matches" element={<Matches />} />
+              <Route path="/tournaments" element={<Tournaments />} />
+              <Route path="/tournaments/:id" element={<TournamentDetails />} />
+              <Route path="/media" element={<Media />} />
+              <Route path="/contacts" element={<Contacts />} />
+              
+              {/* Admin routes */}
+              <Route path="/admin" element={<AdminDashboard />}>
+                <Route index element={<AdminHome />} />
+                <Route path="players" element={<PlayersManagement />} />
+                <Route path="coaches" element={<CoachesManagement />} />
+                <Route path="teams" element={<TeamsManagement />} />
+                <Route path="tournaments" element={<AdminHome />} />
+              </Route>
+              
+              {/* 404 */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
           </Layout>
         </Router>
       </ThemeProvider>
