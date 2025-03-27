@@ -24,6 +24,8 @@ jobs:
       - run: npm install
       
       - run: npm run build
+        env:
+          VITE_BASE_URL: /fdfsdq/
       
       - uses: actions/upload-artifact@v4
         with:
