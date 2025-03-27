@@ -20,7 +20,7 @@ export default defineConfig(({ mode }) => ({
         manualChunks: {
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
           'ui-vendor': ['@radix-ui/react-toast', '@radix-ui/react-tooltip', 'lucide-react'],
-          'query': ['@tanstack/react-query'],
+          'query': ['@tanstack/react-query', '@tanstack/react-query-devtools'],
         }
       }
     },
@@ -50,7 +50,7 @@ export default defineConfig(({ mode }) => ({
   base: '/fdfsdq/',
   // Добавляем оптимизации для более быстрой разработки
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom'],
+    include: ['react', 'react-dom', 'react-router-dom', '@tanstack/react-query', '@tanstack/react-query-devtools'],
     esbuildOptions: {
       target: 'es2020',
     }
