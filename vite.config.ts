@@ -1,6 +1,8 @@
+
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
+import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -20,37 +22,33 @@ export default defineConfig(({ mode }) => ({
         manualChunks: {
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
           'ui-vendor': ['@radix-ui/react-toast', '@radix-ui/react-tooltip', 'lucide-react'],
-          'query': ['@tanstack/react-query', '@tanstack/react-query-devtools'],
+          'query': ['@tanstack/react-query'],
         }
       }
     },
     // Оптимизируем сборку для быстрой загрузки
-    minify: 'esbuild',
+    minify: true,
     cssMinify: true,
     target: 'es2015',  // Целевые современные браузеры для уменьшения размера бандла
     // Разделяем код на чанки для оптимизации загрузки
     chunkSizeWarningLimit: 500,
-    sourcemap: true,
-    // Добавляем предварительную загрузку критических ресурсов
-    assetsInlineLimit: 4096,
-    // Оптимизируем изображения
-    assetsDir: 'assets',
-    // Включаем сжатие Brotli
-    brotliSize: true
+    sourcemap: false
   },
   plugins: [
     react(),
-  ],
+    mode === 'development' &&
+    componentTagger(),
+  ].filter(Boolean),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  // For GitHub Pages, use "/" (absolute paths)
-  base: '/fdfsdq/',
+  // For GitHub Pages, use "./" (relative paths)
+  base: './',
   // Добавляем оптимизации для более быстрой разработки
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom', '@tanstack/react-query', '@tanstack/react-query-devtools'],
+    include: ['react', 'react-dom', 'react-router-dom'],
     esbuildOptions: {
       target: 'es2020',
     }

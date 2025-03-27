@@ -1,46 +1,41 @@
-# Tournament Tables Hub
 
-Веб-приложение для управления турнирными таблицами.
+# ФК ГУДАУТА - Футбольный клуб
 
-## Установка и запуск
+## Запуск проекта
 
-1. Клонируйте репозиторий:
+Для запуска проекта локально:
+
 ```bash
-git clone https://github.com/Pomidorkaeg/dasafds.git
-cd dasafds
-```
-
-2. Установите зависимости:
-```bash
+# Установка зависимостей
 npm install
-```
 
-3. Запустите приложение локально:
-```bash
+# Запуск в режиме разработки
 npm run dev
+
+# Сборка для продакшн
+npm run build
+
+# Предпросмотр продакшн сборки
+npm run preview
 ```
 
-## Развертывание на GitHub Pages
+## Деплой на GitHub Pages
 
-1. Откройте настройки репозитория: https://github.com/Pomidorkaeg/dasafds/settings/pages
-   - В разделе "Source" выберите "GitHub Actions"
-   - В разделе "Build and deployment":
-     - Source: GitHub Actions
-     - Branch: main
-   - Сохраните настройки
+Чтобы развернуть сайт на GitHub Pages:
 
-2. Перейдите в раздел "Actions" вашего репозитория
-   - Выберите последний workflow
-   - Нажмите "Re-run all jobs" в правом верхнем углу
+1. Создайте репозиторий на GitHub
+2. Загрузите все файлы проекта в репозиторий
+3. В настройках репозитория включите GitHub Pages, выбрав ветку `main` и директорию `/docs` или настройте GitHub Actions
+4. Сайт будет доступен по адресу: `https://[username].github.io/[repository-name]/`
 
-3. После успешного выполнения workflow, сайт будет доступен по адресу:
-   https://pomidorkaeg.github.io/dasafds/
+Или просто отправьте коммит в основную ветку репозитория, и GitHub Actions автоматически выполнит сборку и деплой сайта.
 
-## Технологии
+## Структура проекта
 
-- React
-- TypeScript
-- Vite
-- Tailwind CSS
-- Shadcn/ui
-- React Query
+- `/src` - исходный код проекта
+  - `/components` - компоненты React
+  - `/pages` - страницы приложения
+  - `/utils` - утилиты и вспомогательные функции
+  - `/hooks` - пользовательские хуки
+  - `/lib` - библиотеки и хелперы
+- `/public` - статические файлы

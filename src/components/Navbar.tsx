@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -48,7 +49,7 @@ const Navbar = () => {
               className="flex items-center space-x-2"
               onClick={() => setIsMenuOpen(false)}
             >
-              <span className="text-green-600 font-bold text-xl">ФК ГУДАУТА</span>
+              <span className="text-fc-green font-bold text-xl">ФК ГУДАУТА</span>
             </Link>
           </div>
           
@@ -59,8 +60,8 @@ const Navbar = () => {
                 key={link.path}
                 to={link.path}
                 className={cn(
-                  "px-3 py-2 text-sm font-medium rounded-md transition-colors duration-150",
-                  isActive(link.path) ? "text-green-600 bg-green-50" : "text-gray-700 hover:text-green-600 hover:bg-green-50"
+                  "nav-link",
+                  isActive(link.path) ? "active-nav-link text-fc-green" : "text-gray-700 hover:text-fc-green"
                 )}
               >
                 {link.name}
@@ -71,7 +72,7 @@ const Navbar = () => {
           {/* Mobile menu button */}
           <button
             onClick={toggleMenu}
-            className="md:hidden rounded-md p-2 inline-flex items-center justify-center text-gray-800 hover:text-green-600 focus:outline-none"
+            className="md:hidden rounded-md p-2 inline-flex items-center justify-center text-gray-800 hover:text-fc-green focus:outline-none"
           >
             <span className="sr-only">Open main menu</span>
             {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -92,8 +93,8 @@ const Navbar = () => {
               className={cn(
                 "block px-3 py-2 rounded-md text-base font-medium transition-colors duration-150",
                 isActive(link.path) 
-                  ? "text-green-600 bg-green-50" 
-                  : "text-gray-700 hover:text-green-600 hover:bg-green-50"
+                  ? "text-fc-green bg-fc-green/10" 
+                  : "text-gray-700 hover:text-fc-green hover:bg-fc-green/5"
               )}
               onClick={() => setIsMenuOpen(false)}
             >

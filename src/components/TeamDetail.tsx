@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Team } from '@/types/team';
 import { Trophy, MapPin, Calendar, Globe, Instagram, Facebook, Twitter } from 'lucide-react';
@@ -37,28 +38,32 @@ const TeamDetail: React.FC<TeamDetailProps> = ({ team }) => {
       {/* Main Content */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Left Column - Details */}
-        <div className="md:col-span-3 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <h2 className="text-xl font-bold mb-4">О команде</h2>
-              <p className="text-gray-600">{team.description}</p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <h2 className="text-xl font-bold mb-4">Достижения</h2>
-              <ul className="space-y-2">
-                {team.achievements.map((achievement, index) => (
-                  <li key={index} className="flex items-center text-gray-600">
-                    <Trophy className="w-5 h-5 mr-2" style={{ color: team.primaryColor }} />
-                    {achievement}
-                  </li>
-                ))}
-              </ul>
-            </div>
+        <div className="md:col-span-2 space-y-6">
+          <div 
+            className="bg-white p-6 rounded-xl shadow-md border-t-4"
+            style={{ borderTopColor: team.primaryColor }}
+          >
+            <h2 className="text-2xl font-bold mb-4" style={{ color: team.primaryColor }}>О команде</h2>
+            <p className="text-gray-700 leading-relaxed">{team.description}</p>
           </div>
           
           <div className="bg-white p-6 rounded-xl shadow-md">
-            <h2 className="text-2xl font-bold mb-4" style={{ color: team.primaryColor }}>Информация</h2>
+            <h2 className="text-2xl font-bold mb-4" style={{ color: team.primaryColor }}>Достижения</h2>
+            <ul className="space-y-3">
+              {team.achievements.map((achievement, index) => (
+                <li key={index} className="flex items-start">
+                  <Trophy className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" style={{ color: team.primaryColor }} />
+                  <span className="text-gray-700">{achievement}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        
+        {/* Right Column - Info Cards */}
+        <div className="space-y-6">
+          <div className="bg-white p-6 rounded-xl shadow-md">
+            <h2 className="text-xl font-bold mb-4" style={{ color: team.primaryColor }}>Информация</h2>
             
             <div className="space-y-4">
               <div className="flex items-start">
@@ -161,6 +166,16 @@ const TeamDetail: React.FC<TeamDetailProps> = ({ team }) => {
                 )}
               </div>
             </div>
+          </div>
+          
+          <div 
+            className="p-6 rounded-xl shadow-md text-white"
+            style={{ 
+              background: `linear-gradient(135deg, ${team.primaryColor}, ${team.secondaryColor})`,
+            }}
+          >
+            <h2 className="text-xl font-bold mb-2">Главный тренер</h2>
+            <p className="opacity-90 text-lg">{team.coach}</p>
           </div>
         </div>
       </div>
