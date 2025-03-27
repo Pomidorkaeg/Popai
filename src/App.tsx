@@ -13,10 +13,10 @@ function App() {
       <Router>
         <Layout>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/team" element={<Team />} />
-            <Route path="/tournaments" element={<Tournaments />} />
-            <Route path="/tournaments/:id" element={<TournamentDetails />} />
+            <Route index element={<Home />} />
+            <Route path="team" element={<Team />} />
+            <Route path="tournaments" element={<Tournaments />} />
+            <Route path="tournaments/:id" element={<TournamentDetails />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>
