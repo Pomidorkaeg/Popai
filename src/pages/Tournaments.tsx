@@ -1,19 +1,11 @@
+
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import TournamentCard from '@/components/TournamentCard';
 import LazyTournamentTable from '@/components/LazyTournamentTable';
-import { Filter, Search, ChevronDown, Trophy, Calendar, Users, ArrowRight } from 'lucide-react';
+import { Filter, Search, ChevronDown, Trophy } from 'lucide-react';
 import { getTournamentsList, Tournament } from '@/utils/api';
-import { Link } from 'react-router-dom';
-
-// Моковые данные для примера
-const tournaments = [
-  { id: 1, name: 'Чемпионат города', date: '10 мая - 20 июня 2023', teams: 12, status: 'active' },
-  { id: 2, name: 'Кубок области', date: '5 июля - 15 августа 2023', teams: 16, status: 'upcoming' },
-  { id: 3, name: 'Международный турнир', date: '1 сентября - 10 октября 2023', teams: 8, status: 'active' },
-  { id: 4, name: 'Зимний кубок', date: '15 декабря - 25 января 2024', teams: 10, status: 'upcoming' },
-];
 
 const Tournaments = () => {
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
@@ -59,78 +51,123 @@ const Tournaments = () => {
     });
   
   return (
-    <div className="space-y-8">
-      <section className="text-center space-y-4">
-        <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-green-600 to-blue-600 text-transparent bg-clip-text">
-          Турниры
-        </h1>
-        <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-          Актуальная информация о всех турнирах, в которых принимает участие наша команда.
-        </p>
-      </section>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {tournaments.map((tournament) => (
-          <div key={tournament.id} className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm group hover:shadow-md transition-shadow">
-            <div className="p-6">
-              <div className="flex justify-between items-start">
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <div className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      tournament.status === 'active' 
-                        ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300' 
-                        : 'bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300'
-                    }`}>
-                      {tournament.status === 'active' ? 'Активный' : 'Предстоящий'}
-                    </div>
-                  </div>
-                  <h3 className="text-xl font-semibold group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
-                    {tournament.name}
-                  </h3>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
-                      <Calendar className="h-4 w-4 text-slate-400" />
-                      <span>{tournament.date}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
-                      <Users className="h-4 w-4 text-slate-400" />
-                      <span>{tournament.teams} команд</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="h-14 w-14 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
-                  <Trophy className="h-7 w-7 text-green-600 dark:text-green-400" />
-                </div>
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      
+      <main className="flex-grow pt-16 page-transition">
+        {/* Header */}
+        <div className="relative bg-fc-green text-white py-16">
+          <div 
+            className="absolute inset-0 bg-gradient-to-r from-fc-green/90 to-fc-darkGreen/80"
+            style={{ 
+              backgroundImage: `url('https://images.unsplash.com/photo-1459865264687-595d652de67e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundBlendMode: 'overlay'
+            }}
+          ></div>
+          
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col items-center text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/10 backdrop-blur-sm mb-6">
+                <Trophy className="w-8 h-8" />
               </div>
-              <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
-                <Link 
-                  to={`/tournaments/${tournament.id}`} 
-                  className="text-sm font-medium text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 flex items-center gap-1 transition-colors"
+              
+              <h1 className="text-4xl font-bold mb-4">Турниры и соревнования</h1>
+              <p className="max-w-2xl text-white/80 text-lg">
+                Следите за актуальными турнирными таблицами и результатами всех соревнований с участием нашего клуба
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        {/* Selected Tournament Table */}
+        {selectedTournament && (
+          <section className="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <LazyTournamentTable 
+              tournamentId={selectedTournament.id} 
+              source={selectedTournament.source} 
+            />
+          </section>
+        )}
+        
+        {/* Tournament List */}
+        <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between gap-4 mb-8">
+            <h2 className="text-2xl font-bold text-gray-900">Все турниры</h2>
+            
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                <input
+                  type="text"
+                  placeholder="Поиск турнира..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 pr-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-fc-green/50 w-full"
+                />
+              </div>
+              
+              <div className="relative">
+                <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                <select
+                  value={filter}
+                  onChange={(e) => setFilter(e.target.value)}
+                  className="pl-10 pr-10 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-fc-green/50 appearance-none w-full"
                 >
-                  Подробнее <ArrowRight className="h-3 w-3" />
-                </Link>
+                  <option value="all">Все категории</option>
+                  <option value="featured">Популярные</option>
+                  <option value="регулярный">Регулярные</option>
+                  <option value="кубковый">Кубковые</option>
+                  <option value="городской">Городские</option>
+                  <option value="региональный">Региональные</option>
+                </select>
+                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
               </div>
             </div>
           </div>
-        ))}
-      </div>
-
-      <section className="mt-12 bg-gradient-to-r from-green-600 to-blue-600 rounded-lg p-8 text-white">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="space-y-4">
-            <h2 className="text-2xl font-bold">Хотите организовать турнир?</h2>
-            <p className="max-w-md opacity-90">
-              Мы поможем вам организовать турнир любого масштаба с полной поддержкой от нашей команды.
-            </p>
-          </div>
-          <Link 
-            to="/contacts" 
-            className="px-6 py-3 bg-white text-green-600 hover:bg-slate-100 font-medium rounded-lg transition-colors"
-          >
-            Связаться с нами
-          </Link>
-        </div>
-      </section>
+          
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {Array(6).fill(0).map((_, index) => (
+                <div key={index} className="h-72 rounded-xl bg-gray-100 animate-pulse"></div>
+              ))}
+            </div>
+          ) : filteredTournaments.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-500 mb-4">По вашему запросу не найдено турниров</p>
+              <button
+                onClick={() => { setSearchQuery(''); setFilter('all'); }}
+                className="px-4 py-2 bg-fc-green text-white rounded-md hover:bg-fc-darkGreen transition-colors"
+              >
+                Сбросить фильтры
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredTournaments.map((tournament: any) => (
+                <div 
+                  key={tournament.id} 
+                  onClick={() => handleTournamentSelect(tournament)}
+                  className="cursor-pointer"
+                >
+                  <TournamentCard
+                    id={tournament.id}
+                    title={tournament.title}
+                    type={tournament.type}
+                    season={tournament.season}
+                    teams={tournament.teams}
+                    source={tournament.source}
+                    featured={tournament.featured}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+      </main>
+      
+      <Footer />
     </div>
   );
 };

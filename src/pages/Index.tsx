@@ -98,8 +98,8 @@ const Index = () => {
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
               <div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">Турниры и соревнования</h2>
-                <p className="text-gray-500 max-w-2xl">
+                <h2 className="text-3xl font-bold text-gray-900 mb-2 border-l-4 border-fc-green pl-4">Турниры и соревнования</h2>
+                <p className="text-gray-600 max-w-2xl">
                   Следите за актуальными турнирными таблицами и результатами всех соревнований с участием нашего клуба
                 </p>
               </div>
@@ -110,7 +110,7 @@ const Index = () => {
               </Link>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {loading ? (
                 Array(3).fill(0).map((_, index) => (
                   <div key={index} className="h-72 rounded-xl bg-gray-100 animate-pulse"></div>
@@ -137,12 +137,13 @@ const Index = () => {
         </section>
         
         {/* Upcoming Matches Section */}
-        <section className="section-padding bg-gray-50">
-          <div className="max-w-7xl mx-auto">
+        <section className="section-padding bg-green-50/60 relative">
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1535131749006-b7f58c99034b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')] bg-fixed bg-cover bg-center opacity-5"></div>
+          <div className="max-w-7xl mx-auto relative z-10">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
               <div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">Ближайшие матчи</h2>
-                <p className="text-gray-500 max-w-2xl">
+                <h2 className="text-3xl font-bold text-gray-900 mb-2 border-l-4 border-fc-yellow pl-4">Ближайшие матчи</h2>
+                <p className="text-gray-600 max-w-2xl">
                   Не пропустите ближайшие игры нашей команды в различных турнирах
                 </p>
               </div>
@@ -153,12 +154,12 @@ const Index = () => {
               </Link>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {upcomingMatches.map((match) => (
-                <div key={match.id} className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 card-hover">
+                <div key={match.id} className="bg-white rounded-xl overflow-hidden shadow-md border border-gray-100 card-hover">
                   <div className="p-4 border-b border-gray-100 bg-fc-green/5">
                     <div className="flex justify-between items-center">
-                      <span className="text-sm font-medium text-fc-green">{match.tournament}</span>
+                      <span className="text-sm font-semibold text-fc-green px-3 py-1 rounded-full bg-fc-green/10">{match.tournament}</span>
                       <div className="flex items-center space-x-1 text-gray-500 text-sm">
                         <CalendarDays size={14} />
                         <span>{match.date}</span>
@@ -174,7 +175,7 @@ const Index = () => {
                       </div>
                       
                       <div className="flex-shrink-0 px-4">
-                        <div className="text-2xl font-bold text-gray-400">VS</div>
+                        <div className="text-2xl font-bold text-fc-green">VS</div>
                       </div>
                       
                       <div className="text-center flex-1">
@@ -185,13 +186,13 @@ const Index = () => {
                     
                     <div className="flex justify-between text-sm text-gray-500 pt-4 border-t border-gray-100">
                       <div>
-                        <div className="font-medium text-gray-700">{match.time}</div>
+                        <div className="font-semibold text-gray-700">{match.time}</div>
                         <div>{match.stadium}</div>
                       </div>
                       
                       <div className="text-right">
-                        <div className="font-medium text-gray-700">г. {match.city}</div>
-                        <Link to={`/matches/${match.id}`} className="text-fc-green hover:underline">
+                        <div className="font-semibold text-gray-700">г. {match.city}</div>
+                        <Link to={`/matches/${match.id}`} className="text-fc-green hover:underline font-medium">
                           Подробнее
                         </Link>
                       </div>
@@ -208,8 +209,8 @@ const Index = () => {
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
               <div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">Последние новости</h2>
-                <p className="text-gray-500 max-w-2xl">
+                <h2 className="text-3xl font-bold text-gray-900 mb-2 border-l-4 border-fc-darkGreen pl-4">Последние новости</h2>
+                <p className="text-gray-600 max-w-2xl">
                   Будьте в курсе последних событий из жизни клуба
                 </p>
               </div>
@@ -220,12 +221,12 @@ const Index = () => {
               </Link>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {recentNews.map((news) => (
                 <Link
                   key={news.id}
                   to={`/news/${news.id}`}
-                  className="group rounded-xl overflow-hidden shadow-sm border border-gray-200 card-hover"
+                  className="group rounded-xl overflow-hidden shadow-md border border-gray-100 card-hover"
                 >
                   <div className="relative aspect-video overflow-hidden">
                     <img 
@@ -233,7 +234,7 @@ const Index = () => {
                       alt={news.title} 
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-80"></div>
                     <div className="absolute bottom-4 left-4 right-4">
                       <div className="flex items-center text-white/90 text-sm mb-1">
                         <NewspaperIcon size={14} className="mr-2" />
@@ -243,13 +244,13 @@ const Index = () => {
                   </div>
                   
                   <div className="p-5">
-                    <h3 className="font-bold text-lg mb-2 line-clamp-2 group-hover:text-fc-green transition-colors duration-300">
+                    <h3 className="font-bold text-lg mb-3 line-clamp-2 group-hover:text-fc-green transition-colors duration-300">
                       {news.title}
                     </h3>
                     <p className="text-gray-600 text-sm line-clamp-3 mb-4">
                       {news.excerpt}
                     </p>
-                    <div className="flex items-center text-fc-green font-medium text-sm">
+                    <div className="flex items-center text-fc-green font-medium text-sm mt-auto">
                       Читать далее
                       <ArrowRight size={14} className="ml-1 transition-transform duration-300 group-hover:translate-x-1" />
                     </div>
@@ -261,12 +262,13 @@ const Index = () => {
         </section>
         
         {/* Media Section */}
-        <section className="section-padding bg-gray-50">
-          <div className="max-w-7xl mx-auto">
+        <section className="section-padding bg-green-50/60 relative">
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1535131749006-b7f58c99034b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')] bg-fixed bg-cover bg-center opacity-5"></div>
+          <div className="max-w-7xl mx-auto relative z-10">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
               <div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">Медиа галерея</h2>
-                <p className="text-gray-500 max-w-2xl">
+                <h2 className="text-3xl font-bold text-gray-900 mb-2 border-l-4 border-fc-red pl-4">Медиа галерея</h2>
+                <p className="text-gray-600 max-w-2xl">
                   Фотографии и видео с матчей и тренировок нашей команды
                 </p>
               </div>
@@ -278,32 +280,32 @@ const Index = () => {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="relative aspect-square rounded-xl overflow-hidden group card-hover">
+              <div className="relative aspect-square rounded-xl overflow-hidden group card-hover shadow-md">
                 <img 
                   src="https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
                   alt="Team Photo" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-90 transition-opacity duration-300"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                   <span className="text-white font-medium">Тренировка команды</span>
                 </div>
               </div>
               
-              <div className="relative aspect-square rounded-xl overflow-hidden group card-hover">
+              <div className="relative aspect-square rounded-xl overflow-hidden group card-hover shadow-md">
                 <img 
                   src="https://images.unsplash.com/photo-1550881111-7cfde14b8073?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80" 
                   alt="Match Photo" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-90 transition-opacity duration-300"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                   <span className="text-white font-medium">Матч с ФК Динамо</span>
                 </div>
               </div>
               
-              <div className="relative aspect-square rounded-xl overflow-hidden group card-hover">
-                <div className="absolute inset-0 bg-black/40 flex items-center justify-center z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div className="relative aspect-square rounded-xl overflow-hidden group card-hover shadow-md">
+                <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <Video className="text-white w-12 h-12" />
                 </div>
                 <img 
@@ -311,18 +313,18 @@ const Index = () => {
                   alt="Video Thumbnail" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent">
+                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
                   <span className="text-white font-medium">Обзор матча</span>
                 </div>
               </div>
               
-              <div className="relative aspect-square rounded-xl overflow-hidden group card-hover">
+              <div className="relative aspect-square rounded-xl overflow-hidden group card-hover shadow-md">
                 <img 
                   src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2093&q=80" 
                   alt="Stadium Photo" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-90 transition-opacity duration-300"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                   <span className="text-white font-medium">Стадион имени А.П. Соколова</span>
                 </div>

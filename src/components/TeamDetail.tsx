@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Team } from '@/types/team';
-import { Trophy, MapPin, Calendar, Globe, Instagram, Facebook, Twitter } from 'lucide-react';
+import { Trophy, MapPin, Calendar, Globe, Instagram, Facebook, Twitter, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface TeamDetailProps {
@@ -104,6 +104,19 @@ const TeamDetail: React.FC<TeamDetailProps> = ({ team }) => {
                   <p className="font-medium">{team.address}</p>
                 </div>
               </div>
+              
+              <div className="flex items-start">
+                <div 
+                  className="p-2 rounded-full mr-3"
+                  style={{ backgroundColor: `${team.primaryColor}15` }}
+                >
+                  <User className="h-5 w-5" style={{ color: team.primaryColor }} />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Главный тренер</p>
+                  <p className="font-medium">{team.coach}</p>
+                </div>
+              </div>
             </div>
             
             <div className="mt-6 pt-4 border-t border-gray-100">
@@ -166,16 +179,6 @@ const TeamDetail: React.FC<TeamDetailProps> = ({ team }) => {
                 )}
               </div>
             </div>
-          </div>
-          
-          <div 
-            className="p-6 rounded-xl shadow-md text-white"
-            style={{ 
-              background: `linear-gradient(135deg, ${team.primaryColor}, ${team.secondaryColor})`,
-            }}
-          >
-            <h2 className="text-xl font-bold mb-2">Главный тренер</h2>
-            <p className="opacity-90 text-lg">{team.coach}</p>
           </div>
         </div>
       </div>
