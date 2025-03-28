@@ -1,97 +1,32 @@
-import React, { useState } from 'react';
-import { Edit2, Shield, ImagePlus, Award, MapPin, Info, Star } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { getTeamsData, updateTeam } from '@/utils/teamsData';
-import { Team } from '@/types/team';
-import { toast } from '@/components/ui/use-toast';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Globe, Instagram, Facebook, Twitter } from 'lucide-react';
+import { useState } from 'react';
+import { Card } from '@/components/ui/card';
+
+interface Team {
+  id: string;
+  name: string;
+  description: string;
+  foundedDate: string;
+  location: string;
+}
 
 export default function TeamsManagement() {
-  const [teams, setTeams] = useState<Team[]>(getTeamsData());
-  const [editingTeamId, setEditingTeamId] = useState<string | null>(null);
-  const [formData, setFormData] = useState<Team | null>(null);
-  
-  const handleEditClick = (team: Team) => {
-    setEditingTeamId(team.id);
-    setFormData({ ...team });
-  };
-  
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    
-    if (formData) {
-      if (name.includes('.')) {
-        // Handle nested properties (socialLinks)
-        const [parent, child] = name.split('.');
-        setFormData({
-          ...formData,
-          [parent]: {
-            ...formData[parent as keyof Team] as object,
-            [child]: value
-          }
-        });
-      } else if (name === 'achievements') {
-        // Handle achievements array
-        setFormData({
-          ...formData,
-          achievements: value.split('\n').filter(item => item.trim() !== '')
-        });
-      } else if (name === 'foundedYear') {
-        // Handle numeric foundedYear
-        setFormData({
-          ...formData,
-          foundedYear: parseInt(value) || 0
-        });
-      } else {
-        // Handle regular properties
-        setFormData({
-          ...formData,
-          [name]: value
-        });
-      }
-    }
-  };
-  
-  const handleCancel = () => {
-    setEditingTeamId(null);
-    setFormData(null);
-  };
-  
-  const handleSave = () => {
-    if (formData) {
-      try {
-        updateTeam(formData);
-        setTeams(teams.map(team => team.id === formData.id ? formData : team));
-        toast({
-          title: "Команда обновлена",
-          description: "Информация о команде успешно обновлена",
-        });
-        setEditingTeamId(null);
-        setFormData(null);
-      } catch (error) {
-        toast({
-          variant: "destructive",
-          title: "Ошибка",
-          description: "Не удалось сохранить изменения",
-        });
-      }
-    }
-  };
-  
+  const [teams] = useState<Team[]>([]);
+
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4">Управление командами</h2>
-      <p>Здесь будет список команд и функции управления ими.</p>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-8">Управление командами</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {teams.map((team) => (
+          <Card key={team.id} className="p-4">
+            <h3 className="font-semibold mb-2">{team.name}</h3>
+            <p className="text-gray-600 text-sm mb-4">{team.description}</p>
+            <div className="space-y-2 text-sm text-gray-500">
+              <div>Дата основания: {team.foundedDate}</div>
+              <div>Место: {team.location}</div>
+            </div>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 }

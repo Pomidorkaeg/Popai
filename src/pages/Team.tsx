@@ -1,69 +1,53 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { Shield, Award, Calendar, Flag } from 'lucide-react';
+import { useState } from 'react';
+import { Card } from '@/components/ui/card';
 
 interface Team {
   id: string;
   name: string;
   description: string;
-  logo: string;
-  founded: string;
+  foundedDate: string;
   location: string;
   achievements: string[];
 }
 
 export default function Team() {
-  const { id } = useParams();
-  const [team, setTeam] = useState<Team | null>(null);
-  const [loading, setLoading] = useState(true);
-  
-  useEffect(() => {
-    // Здесь будет логика загрузки данных команды
-    setLoading(false);
-  }, [id]);
-
-  if (loading) {
-    return <div>Загрузка...</div>;
-  }
+  const [team] = useState<Team | null>(null);
 
   if (!team) {
-    return <div>Команда не найдена</div>;
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <p>Команда не найдена</p>
+      </div>
+    );
   }
-  
+
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex items-center space-x-4">
-        <img src={team.logo} alt={team.name} className="w-24 h-24 rounded-full" />
-        <div>
-          <h1 className="text-3xl font-bold">{team.name}</h1>
-          <p className="text-gray-600">{team.description}</p>
-                </div>
-              </div>
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-semibold mb-4">Информация</h2>
-          <div className="space-y-2">
-            <div className="flex items-center space-x-2">
-              <Shield className="h-5 w-5" />
-              <span>Основана: {team.founded}</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Flag className="h-5 w-5" />
-              <span>{team.location}</span>
-            </div>
+      <div className="max-w-4xl mx-auto">
+        <div className="flex items-center gap-6 mb-8">
+          <div className="w-24 h-24 bg-gray-200 rounded-full"></div>
+          <div>
+            <h1 className="text-3xl font-bold mb-2">{team.name}</h1>
+            <p className="text-gray-600">{team.location}</p>
           </div>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow">
+        
+        <Card className="p-6 mb-8">
+          <h2 className="text-xl font-semibold mb-4">О команде</h2>
+          <p className="text-gray-600 mb-4">{team.description}</p>
+          <div className="text-sm text-gray-500">
+            <p>Дата основания: {team.foundedDate}</p>
+          </div>
+        </Card>
+
+        <Card className="p-6">
           <h2 className="text-xl font-semibold mb-4">Достижения</h2>
           <ul className="space-y-2">
             {team.achievements.map((achievement, index) => (
-              <li key={index} className="flex items-center space-x-2">
-                <Award className="h-5 w-5" />
-                <span>{achievement}</span>
-              </li>
+              <li key={index} className="text-gray-600">• {achievement}</li>
             ))}
           </ul>
-        </div>
+        </Card>
       </div>
     </div>
   );

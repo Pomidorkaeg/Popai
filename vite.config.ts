@@ -15,14 +15,6 @@ export default defineConfig({
   build: {
     outDir: "dist",
     sourcemap: true,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'ui-vendor': ['@/components/ui'],
-        }
-      }
-    },
     chunkSizeWarningLimit: 1000,
     minify: 'terser',
     terserOptions: {
@@ -33,8 +25,7 @@ export default defineConfig({
     }
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom'],
-    exclude: ['@/components/ui']
+    include: ['react', 'react-dom', 'react-router-dom']
   },
   server: {
     port: 3000,
