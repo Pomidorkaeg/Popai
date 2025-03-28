@@ -6,23 +6,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from '@/components/theme-provider'
 
-// Lazy-load all route components
-const Index = lazy(() => import("./pages/Index"));
-const Team = lazy(() => import("./pages/Team"));
-const News = lazy(() => import("./pages/News"));
-const Matches = lazy(() => import("./pages/Matches"));
-const Tournaments = lazy(() => import("./pages/Tournaments"));
-const Media = lazy(() => import("./pages/Media"));
-const Contacts = lazy(() => import("./pages/Contacts"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-
-// Admin routes
-const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
-const AdminHome = lazy(() => import("./pages/admin/AdminHome"));
-const PlayersManagement = lazy(() => import("./pages/admin/PlayersManagement"));
-const CoachesManagement = lazy(() => import("./pages/admin/CoachesManagement"));
-const TeamsManagement = lazy(() => import("./pages/admin/TeamsManagement"));
-
 // Улучшенный компонент загрузки
 const PageLoading = () => {
   const [loadTime, setLoadTime] = useState(0);
@@ -69,12 +52,19 @@ const PageLoading = () => {
   );
 };
 
-// Оптимизированные импорты маршрутов
+// Импорты маршрутов
 const Index = lazy(() => import("@/pages/Index"));
 const Team = lazy(() => import("@/pages/Team"));
 const Tournaments = lazy(() => import("@/pages/Tournaments"));
 const TournamentDetails = lazy(() => import("@/pages/TournamentDetails"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
+
+// Административные маршруты
+const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
+const AdminHome = lazy(() => import("./pages/admin/AdminHome"));
+const PlayersManagement = lazy(() => import("./pages/admin/PlayersManagement"));
+const CoachesManagement = lazy(() => import("./pages/admin/CoachesManagement"));
+const TeamsManagement = lazy(() => import("./pages/admin/TeamsManagement"));
 
 // Настроенный клиент React Query
 const queryClient = new QueryClient({
@@ -103,17 +93,13 @@ const App = () => {
             <div className="min-h-screen bg-background">
               <Suspense fallback={<PageLoading />}>
                 <Routes>
-                  {/* Public routes */}
+                  {/* Публичные маршруты */}
                   <Route path="/" element={<Index />} />
                   <Route path="/team" element={<Team />} />
-                  <Route path="/news" element={<News />} />
-                  <Route path="/matches" element={<Matches />} />
                   <Route path="/tournaments" element={<Tournaments />} />
                   <Route path="/tournaments/:id" element={<TournamentDetails />} />
-                  <Route path="/media" element={<Media />} />
-                  <Route path="/contacts" element={<Contacts />} />
                   
-                  {/* Admin routes */}
+                  {/* Административные маршруты */}
                   <Route path="/admin" element={<AdminDashboard />}>
                     <Route index element={<AdminHome />} />
                     <Route path="players" element={<PlayersManagement />} />
