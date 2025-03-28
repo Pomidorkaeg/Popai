@@ -1,10 +1,10 @@
-
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HashRouter, Routes, Route } from "react-router-dom";
+import { ThemeProvider } from '@/components/theme-provider'
 
 // Lazy-load all route components
 const Index = lazy(() => import("./pages/Index"));
@@ -23,56 +23,112 @@ const PlayersManagement = lazy(() => import("./pages/admin/PlayersManagement"));
 const CoachesManagement = lazy(() => import("./pages/admin/CoachesManagement"));
 const TeamsManagement = lazy(() => import("./pages/admin/TeamsManagement"));
 
-// Fallback loading component
-const PageLoading = () => (
-  <div className="flex h-screen w-full items-center justify-center">
-    <div className="h-10 w-10 animate-spin rounded-full border-4 border-fc-green border-t-transparent"></div>
-  </div>
-);
+// Улучшенный компонент загрузки
+const PageLoading = () => {
+  const [loadTime, setLoadTime] = useState(0);
+  const [error, setError] = useState(false);
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setLoadTime(prev => {
+        if (prev >= 10) {
+          setError(true);
+          clearInterval(timer);
+          return prev;
+        }
+        return prev + 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  if (error) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-background">
+        <div className="flex flex-col items-center gap-4">
+          <p className="text-lg font-bold text-red-500">Ошибка загрузки</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+          >
+            Обновить страницу
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex h-screen w-full items-center justify-center bg-background">
+      <div className="flex flex-col items-center gap-4">
+        <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+        <p className="text-sm text-muted-foreground">Загрузка... ({loadTime}с)</p>
+      </div>
+    </div>
+  );
+};
+
+// Оптимизированные импорты маршрутов
+const Index = lazy(() => import("@/pages/Index"));
+const Team = lazy(() => import("@/pages/Team"));
+const Tournaments = lazy(() => import("@/pages/Tournaments"));
+const TournamentDetails = lazy(() => import("@/pages/TournamentDetails"));
+const NotFound = lazy(() => import("@/pages/NotFound"));
+
+// Настроенный клиент React Query
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 60 * 1000, // 1 minute
+      staleTime: 1000 * 60 * 5,
+      retry: 1,
       refetchOnWindowFocus: false,
+      suspense: true,
     },
   },
 });
 
-// Always use HashRouter for compatibility with GitHub Pages
 const App = () => {
+  useEffect(() => {
+    console.log('App mounted');
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <HashRouter>
-          <Suspense fallback={<PageLoading />}>
-            <Routes>
-              {/* Public routes */}
-              <Route path="/" element={<Index />} />
-              <Route path="/team" element={<Team />} />
-              <Route path="/news" element={<News />} />
-              <Route path="/matches" element={<Matches />} />
-              <Route path="/tournaments" element={<Tournaments />} />
-              <Route path="/tournaments/:id" element={<Tournaments />} />
-              <Route path="/media" element={<Media />} />
-              <Route path="/contacts" element={<Contacts />} />
-              
-              {/* Admin routes */}
-              <Route path="/admin" element={<AdminDashboard />}>
-                <Route index element={<AdminHome />} />
-                <Route path="players" element={<PlayersManagement />} />
-                <Route path="coaches" element={<CoachesManagement />} />
-                <Route path="teams" element={<TeamsManagement />} />
-                <Route path="tournaments" element={<AdminHome />} />
-              </Route>
-              
-              {/* 404 */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-        </HashRouter>
+        <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+          <HashRouter>
+            <div className="min-h-screen bg-background">
+              <Suspense fallback={<PageLoading />}>
+                <Routes>
+                  {/* Public routes */}
+                  <Route path="/" element={<Index />} />
+                  <Route path="/team" element={<Team />} />
+                  <Route path="/news" element={<News />} />
+                  <Route path="/matches" element={<Matches />} />
+                  <Route path="/tournaments" element={<Tournaments />} />
+                  <Route path="/tournaments/:id" element={<TournamentDetails />} />
+                  <Route path="/media" element={<Media />} />
+                  <Route path="/contacts" element={<Contacts />} />
+                  
+                  {/* Admin routes */}
+                  <Route path="/admin" element={<AdminDashboard />}>
+                    <Route index element={<AdminHome />} />
+                    <Route path="players" element={<PlayersManagement />} />
+                    <Route path="coaches" element={<CoachesManagement />} />
+                    <Route path="teams" element={<TeamsManagement />} />
+                    <Route path="tournaments" element={<AdminHome />} />
+                  </Route>
+                  
+                  {/* 404 */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </div>
+          </HashRouter>
+        </ThemeProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );
