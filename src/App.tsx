@@ -6,6 +6,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Index from '@/pages/Index';
 import Tournaments from '@/pages/Tournaments';
+import TournamentDetails from '@/pages/TournamentDetails';
+import NotFound from '@/pages/NotFound';
 import { Suspense, lazy } from 'react';
 
 // Lazy-load all route components
@@ -19,9 +21,8 @@ const Contacts = lazy(() => import("./pages/Contacts"));
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5, // 5 minutes
-      retry: 1,
       refetchOnWindowFocus: false,
+      retry: 1,
     },
   },
 });
@@ -42,11 +43,13 @@ const App = () => {
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/tournaments" element={<Tournaments />} />
+                  <Route path="/tournaments/:id" element={<TournamentDetails />} />
                   <Route path="/team" element={<Team />} />
                   <Route path="/news" element={<News />} />
                   <Route path="/matches" element={<Matches />} />
                   <Route path="/media" element={<Media />} />
                   <Route path="/contacts" element={<Contacts />} />
+                  <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>
             </main>

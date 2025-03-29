@@ -10,37 +10,23 @@ const Index: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    let isMounted = true;
-
     const loadTournaments = async () => {
       try {
-        setLoading(true);
-        setError(null);
         const data = await getTournamentsList();
-        if (isMounted) {
-          setTournaments(data);
-        }
+        setTournaments(data);
       } catch (err) {
-        if (isMounted) {
-          setError('Ошибка при загрузке списка турниров');
-          console.error('Error loading tournaments:', err);
-        }
+        console.error('Error loading tournaments:', err);
+        setError('Ошибка при загрузке списка турниров');
       } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
+        setLoading(false);
       }
     };
 
     loadTournaments();
-
-    return () => {
-      isMounted = false;
-    };
   }, []);
 
   return (
-    <>
+    <div className="min-h-screen bg-gray-50">
       <Hero />
       
       <div className="container mx-auto px-4 py-12">
@@ -49,27 +35,27 @@ const Index: React.FC = () => {
           <p className="text-gray-600">Следите за результатами и статистикой ваших любимых турниров</p>
         </div>
 
-        {error ? (
-          <div className="text-center py-8">
-            <p className="text-red-600 mb-4">{error}</p>
-            <button
-              onClick={() => window.location.reload()}
-              className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
-            >
-              Повторить попытку
-            </button>
-          </div>
-        ) : loading ? (
-          <div className="flex items-center justify-center h-64">
-            <Loader2 className="h-8 w-8 animate-spin text-green-600" />
-          </div>
-        ) : tournaments.length === 0 ? (
-          <div className="text-center py-8 text-gray-600">
-            Турниры не найдены
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {tournaments.slice(0, 3).map((tournament) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {loading ? (
+            <div className="col-span-full flex items-center justify-center h-64">
+              <Loader2 className="h-8 w-8 animate-spin text-green-600" />
+            </div>
+          ) : error ? (
+            <div className="col-span-full text-center py-8">
+              <p className="text-red-600 mb-4">{error}</p>
+              <button
+                onClick={() => window.location.reload()}
+                className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
+              >
+                Повторить попытку
+              </button>
+            </div>
+          ) : tournaments.length === 0 ? (
+            <div className="col-span-full text-center py-8 text-gray-600">
+              Турниры не найдены
+            </div>
+          ) : (
+            tournaments.slice(0, 3).map((tournament) => (
               <div
                 key={tournament.id}
                 className="bg-white rounded-xl shadow-sm p-6 hover:shadow-lg transition-shadow duration-200"
@@ -81,18 +67,18 @@ const Index: React.FC = () => {
                     {tournament.startDate} - {tournament.endDate}
                   </span>
                   <Link
-                    to="/tournaments"
+                    to={`/tournaments/${tournament.id}`}
                     className="text-green-600 hover:text-green-700 font-medium"
                   >
                     Подробнее →
                   </Link>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
+            ))
+          )}
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 
