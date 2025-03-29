@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Hero from '@/components/Hero';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 import TournamentCard from '@/components/TournamentCard';
 import LazyTournamentTable from '@/components/LazyTournamentTable';
 import { ArrowRight, Trophy, Users, Star } from 'lucide-react';
@@ -15,11 +13,16 @@ const Index = () => {
   const [error, setError] = useState<string | null>(null);
   
   useEffect(() => {
+    let isMounted = true;
+
     const fetchTournaments = async () => {
       try {
         setLoading(true);
         setError(null);
         const data = await getTournamentsList();
+        
+        if (!isMounted) return;
+        
         setTournaments(data);
         
         // Set featured tournament (first featured one or first in the list)
@@ -27,19 +30,25 @@ const Index = () => {
         setFeaturedTournament(featured);
       } catch (error) {
         console.error("Error fetching tournaments:", error);
-        setError("Не удалось загрузить данные турниров");
+        if (isMounted) {
+          setError("Не удалось загрузить данные турниров");
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
     
     fetchTournaments();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
   
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      <Navbar />
-      
       <main className="flex-grow page-transition">
         <Hero />
         
@@ -180,8 +189,6 @@ const Index = () => {
           </div>
         </section>
       </main>
-      
-      <Footer />
     </div>
   );
 };
