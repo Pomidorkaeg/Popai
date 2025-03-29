@@ -16,9 +16,6 @@ const Tournaments = () => {
     const loadTournaments = async () => {
       const data = await getTournamentsList();
       setTournaments(data);
-      if (data.length > 0) {
-        setSelectedTournament(data[0]);
-      }
     };
     
     loadTournaments();
@@ -73,16 +70,6 @@ const Tournaments = () => {
           </div>
         </div>
         
-        {/* Selected Tournament Table */}
-        {selectedTournament && (
-          <section className="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-            <LazyTournamentTable 
-              tournamentId={selectedTournament.id} 
-              source={selectedTournament.source} 
-            />
-          </section>
-        )}
-        
         {/* Tournament List */}
         <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between gap-4 mb-8">
@@ -118,15 +105,34 @@ const Tournaments = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredTournaments.map((tournament) => (
-              <TournamentCard
+              <div 
                 key={tournament.id}
-                tournament={tournament}
-                isSelected={selectedTournament?.id === tournament.id}
-                onSelect={handleTournamentSelect}
-              />
+                onClick={() => handleTournamentSelect(tournament)}
+                className="cursor-pointer"
+              >
+                <TournamentCard
+                  id={tournament.id}
+                  title={tournament.title}
+                  type={tournament.type}
+                  season={tournament.season}
+                  teams={tournament.teams}
+                  source={tournament.source}
+                  featured={tournament.featured}
+                />
+              </div>
             ))}
           </div>
         </section>
+        
+        {/* Selected Tournament Table */}
+        {selectedTournament && (
+          <section className="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <LazyTournamentTable 
+              tournamentId={selectedTournament.id} 
+              source={selectedTournament.source} 
+            />
+          </section>
+        )}
       </main>
       
       <Footer />
