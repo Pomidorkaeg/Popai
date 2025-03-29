@@ -40,6 +40,12 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        fc: {
+          green: "#22c55e",
+          darkGreen: "#16a34a",
+          yellow: "#eab308",
+          red: "#ef4444",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
