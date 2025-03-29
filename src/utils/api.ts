@@ -39,25 +39,46 @@ export interface TournamentData {
   title: string;
   season: string;
   lastUpdated: string;
-  teams: Team[];
-  topScorers: TopScorer[];
-  warnings: Warning[];
-  expulsions: Expulsion[];
+  teams: Array<{
+    position: number;
+    name: string;
+    played: number;
+    won: number;
+    drawn: number;
+    lost: number;
+    goalsFor: number;
+    goalsAgainst: number;
+    goalDifference: number;
+    points: number;
+  }>;
+  topScorers: Array<{
+    position: number;
+    name: string;
+    team: string;
+    goals: number;
+  }>;
+  warnings: Array<{
+    position: number;
+    name: string;
+    team: string;
+    warnings: number;
+  }>;
+  expulsions: Array<{
+    position: number;
+    name: string;
+    team: string;
+    expulsions: number;
+  }>;
 }
 
 export interface Tournament {
   id: string;
-  title: string;
-  type: string;
-  season: string;
-  teams: number;
-  source: string;
-  featured: boolean;
   name: string;
   description: string;
   startDate: string;
   endDate: string;
   location: string;
+  teams: number;
   status: string;
 }
 
@@ -119,57 +140,41 @@ export const getTournamentTable = async (tournamentId: string, source: string): 
 
 export const getTournamentsList = async (): Promise<Tournament[]> => {
   try {
-    // В реальном приложении здесь будет API запрос
-    // Пока возвращаем тестовые данные
+    // В реальном приложении здесь будет API-запрос
     return [
       {
         id: '1',
-        title: 'Чемпионат России 2024',
-        type: 'Чемпионат',
-        season: '2024',
-        teams: 16,
-        source: 'РФС',
-        featured: true,
-        name: 'Чемпионат России 2024',
-        description: 'Профессиональный футбольный чемпионат России',
-        startDate: '2024-03-01',
-        endDate: '2024-11-30',
-        location: 'Россия',
+        name: 'Кубок среди любительских команд МОО СФФ «Сибирь»',
+        description: 'Турнир среди любительских команд Сибирского федерального округа',
+        startDate: '01.03.2024',
+        endDate: '30.06.2024',
+        location: 'Сибирский федеральный округ',
+        teams: 8,
         status: 'active'
       },
       {
         id: '2',
-        title: 'Кубок России 2024',
-        type: 'Кубок',
-        season: '2024',
-        teams: 32,
-        source: 'РФС',
-        featured: false,
-        name: 'Кубок России 2024',
-        description: 'Кубковый турнир России',
-        startDate: '2024-04-01',
-        endDate: '2024-12-31',
-        location: 'Россия',
+        name: 'Чемпионат города по футболу',
+        description: 'Городской чемпионат по футболу среди любительских команд',
+        startDate: '15.02.2024',
+        endDate: '15.05.2024',
+        location: 'Москва',
+        teams: 12,
         status: 'active'
       },
       {
         id: '3',
-        title: 'Суперкубок России 2024',
-        type: 'Суперкубок',
-        season: '2024',
-        teams: 2,
-        source: 'РФС',
-        featured: false,
-        name: 'Суперкубок России 2024',
-        description: 'Матч за Суперкубок России',
-        startDate: '2024-02-01',
-        endDate: '2024-02-01',
-        location: 'Москва',
+        name: 'Кубок области',
+        description: 'Кубок области по футболу среди любительских команд',
+        startDate: '01.01.2024',
+        endDate: '28.02.2024',
+        location: 'Московская область',
+        teams: 16,
         status: 'completed'
       }
     ];
   } catch (error) {
-    console.error('Error in getTournamentsList:', error);
+    console.error('Error fetching tournaments:', error);
     throw new Error('Не удалось загрузить список турниров');
   }
 };
