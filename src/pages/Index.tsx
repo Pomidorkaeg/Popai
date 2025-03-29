@@ -10,21 +10,33 @@ const Index: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let isMounted = true;
+
     const loadTournaments = async () => {
       try {
         setLoading(true);
         setError(null);
         const data = await getTournamentsList();
-        setTournaments(data);
+        if (isMounted) {
+          setTournaments(data);
+        }
       } catch (err) {
-        setError('Ошибка при загрузке списка турниров');
-        console.error('Error loading tournaments:', err);
+        if (isMounted) {
+          setError('Ошибка при загрузке списка турниров');
+          console.error('Error loading tournaments:', err);
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     loadTournaments();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (
@@ -50,6 +62,10 @@ const Index: React.FC = () => {
         ) : loading ? (
           <div className="flex items-center justify-center h-64">
             <Loader2 className="h-8 w-8 animate-spin text-green-600" />
+          </div>
+        ) : tournaments.length === 0 ? (
+          <div className="text-center py-8 text-gray-600">
+            Турниры не найдены
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
