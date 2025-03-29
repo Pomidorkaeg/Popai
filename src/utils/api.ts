@@ -82,7 +82,45 @@ export interface Tournament {
   status: string;
 }
 
-// This would be a real API call in production
+export const getTournamentsList = async (): Promise<Tournament[]> => {
+  // В реальном приложении здесь будет API-запрос
+  return [
+    {
+      id: '1',
+      name: "Кубок среди любительских команд МОО СФФ «Сибирь»",
+      description: "Турнир среди любительских команд Сибирского федерального округа",
+      startDate: "01.03.2024",
+      endDate: "30.06.2024",
+      location: "Сибирский федеральный округ",
+      status: "active",
+      teams: 8,
+      source: "sff-siberia.ru"
+    },
+    {
+      id: '2',
+      name: "Чемпионат города по футболу",
+      description: "Городской чемпионат по футболу среди любительских команд",
+      startDate: "15.02.2024",
+      endDate: "15.05.2024",
+      location: "Москва",
+      status: "active",
+      teams: 12,
+      source: "sff-siberia.ru"
+    },
+    {
+      id: '3',
+      name: "Кубок области",
+      description: "Кубок области по футболу среди любительских команд",
+      startDate: "01.01.2024",
+      endDate: "28.02.2024",
+      location: "Московская область",
+      status: "completed",
+      teams: 16,
+      source: "sff-siberia.ru"
+    }
+  ];
+};
+
 export const getTournamentTable = async (tournamentId: string): Promise<TournamentData> => {
   // В реальном приложении здесь будет API-запрос
   return {
@@ -160,52 +198,6 @@ export const getTournamentTable = async (tournamentId: string): Promise<Tourname
   };
 };
 
-export const getTournamentsList = async (): Promise<Tournament[]> => {
-  // В реальном приложении здесь будет API-запрос
-  return [
-    {
-      id: '1',
-      name: "Кубок среди любительских команд МОО СФФ «Сибирь»",
-      description: "Турнир среди любительских команд Сибирского федерального округа",
-      startDate: "01.03.2024",
-      endDate: "30.06.2024",
-      location: "Сибирский федеральный округ",
-      status: "active",
-      teams: 8,
-      source: "sff-siberia.ru"
-    },
-    {
-      id: '2',
-      name: "Чемпионат города по футболу",
-      description: "Городской чемпионат по футболу среди любительских команд",
-      startDate: "15.02.2024",
-      endDate: "15.05.2024",
-      location: "Москва",
-      status: "active",
-      teams: 12,
-      source: "sff-siberia.ru"
-    },
-    {
-      id: '3',
-      name: "Кубок области",
-      description: "Кубок области по футболу среди любительских команд",
-      startDate: "01.01.2024",
-      endDate: "28.02.2024",
-      location: "Московская область",
-      status: "completed",
-      teams: 16,
-      source: "sff-siberia.ru"
-    }
-  ];
-};
-
-// In a production application, this would be a real API call
-// For now, it's just a placeholder function
 export const fetchTournamentData = async (tournamentId: string): Promise<TournamentData> => {
-  try {
-    return await getTournamentTable(tournamentId);
-  } catch (error) {
-    console.error('Error fetching tournament data:', error);
-    throw error;
-  }
+  return getTournamentTable(tournamentId);
 };
