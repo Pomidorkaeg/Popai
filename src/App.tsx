@@ -3,16 +3,16 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Index from '@/pages/Index';
+import Tournaments from '@/pages/Tournaments';
 
 // Lazy-load all route components
-const Index = lazy(() => import("./pages/Index"));
 const Team = lazy(() => import("./pages/Team"));
 const News = lazy(() => import("./pages/News"));
 const Matches = lazy(() => import("./pages/Matches"));
-const Tournaments = lazy(() => import("./pages/Tournaments"));
 const Media = lazy(() => import("./pages/Media"));
 const Contacts = lazy(() => import("./pages/Contacts"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -41,14 +41,13 @@ const queryClient = new QueryClient({
   },
 });
 
-// Always use HashRouter for compatibility with GitHub Pages
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <HashRouter>
+        <Router>
           <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-50 to-white">
             <Navbar />
             <main className="flex-grow">
@@ -80,7 +79,7 @@ const App = () => {
             </main>
             <Footer />
           </div>
-        </HashRouter>
+        </Router>
       </TooltipProvider>
     </QueryClientProvider>
   );
