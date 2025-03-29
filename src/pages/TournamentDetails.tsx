@@ -9,6 +9,7 @@ const TournamentDetails: React.FC = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: ['tournament', id],
     queryFn: () => getTournamentTable(id || ''),
+    enabled: !!id,
   });
 
   if (isLoading) {
@@ -24,12 +25,12 @@ const TournamentDetails: React.FC = () => {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <p className="text-red-600 mb-4">Ошибка при загрузке данных турнира</p>
-          <button
-            onClick={() => window.location.reload()}
-            className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
+          <Link
+            to="/tournaments"
+            className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors inline-block"
           >
-            Повторить попытку
-          </button>
+            Вернуться к списку турниров
+          </Link>
         </div>
       </div>
     );
