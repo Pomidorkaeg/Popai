@@ -1,4 +1,3 @@
-
 import { toast } from '@/components/ui/use-toast';
 
 // Define interfaces for the API responses
@@ -54,6 +53,12 @@ export interface Tournament {
   teams: number;
   source: string;
   featured: boolean;
+  name: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  location: string;
+  status: string;
 }
 
 // This would be a real API call in production
@@ -113,62 +118,60 @@ export const getTournamentTable = async (tournamentId: string, source: string): 
 };
 
 export const getTournamentsList = async (): Promise<Tournament[]> => {
-  console.log("Fetching tournaments list");
-  
-  // In a real implementation, this would make an API call to fetch the data
-  return new Promise((resolve) => {
-    // Simulate network request
-    setTimeout(() => {
-      // This is placeholder data - in a real app, this would come from the API
-      resolve([
-        {
-          id: "league-3",
-          title: "3 Лига ПФЛ",
-          type: "Регулярный чемпионат",
-          season: "2024",
-          teams: 16,
-          source: "sff-siberia.ru",
-          featured: true,
-        },
-        {
-          id: "russia-cup",
-          title: "Кубок России",
-          type: "Кубковый турнир",
-          season: "2023-2024",
-          teams: 32,
-          source: "sff-siberia.ru",
-          featured: false,
-        },
-        {
-          id: "novosibirsk-championship",
-          title: "Чемпионат города Новосибирска",
-          type: "Городской чемпионат",
-          season: "2024",
-          teams: 12,
-          source: "ffnso.ru",
-          featured: true,
-        },
-        {
-          id: "victory-cup",
-          title: "Кубок победы",
-          type: "Кубковый турнир",
-          season: "2024",
-          teams: 16,
-          source: "ffnso.ru",
-          featured: false,
-        },
-        {
-          id: "novosibirsk-region-cup",
-          title: "Кубок новосибирской области",
-          type: "Региональный кубок",
-          season: "2024",
-          teams: 18,
-          source: "ffnso.ru",
-          featured: false,
-        },
-      ]);
-    }, 1000); // 1 second delay to simulate network request
-  });
+  try {
+    // В реальном приложении здесь будет API запрос
+    // Пока возвращаем тестовые данные
+    return [
+      {
+        id: '1',
+        title: 'Чемпионат России 2024',
+        type: 'Чемпионат',
+        season: '2024',
+        teams: 16,
+        source: 'РФС',
+        featured: true,
+        name: 'Чемпионат России 2024',
+        description: 'Профессиональный футбольный чемпионат России',
+        startDate: '2024-03-01',
+        endDate: '2024-11-30',
+        location: 'Россия',
+        status: 'active'
+      },
+      {
+        id: '2',
+        title: 'Кубок России 2024',
+        type: 'Кубок',
+        season: '2024',
+        teams: 32,
+        source: 'РФС',
+        featured: false,
+        name: 'Кубок России 2024',
+        description: 'Кубковый турнир России',
+        startDate: '2024-04-01',
+        endDate: '2024-12-31',
+        location: 'Россия',
+        status: 'active'
+      },
+      {
+        id: '3',
+        title: 'Суперкубок России 2024',
+        type: 'Суперкубок',
+        season: '2024',
+        teams: 2,
+        source: 'РФС',
+        featured: false,
+        name: 'Суперкубок России 2024',
+        description: 'Матч за Суперкубок России',
+        startDate: '2024-02-01',
+        endDate: '2024-02-01',
+        location: 'Москва',
+        status: 'completed'
+      }
+    ];
+  } catch (error) {
+    console.error('Error in getTournamentsList:', error);
+    throw new Error('Не удалось загрузить список турниров');
+  }
 };
 
 // In a production application, this would be a real API call

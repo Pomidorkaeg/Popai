@@ -14,11 +14,9 @@ const Index: React.FC = () => {
   const [tournaments, setTournaments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
-    setMounted(true);
 
     const fetchTournaments = async () => {
       try {
@@ -27,7 +25,7 @@ const Index: React.FC = () => {
         const data = await getTournamentsList();
         
         if (isMounted) {
-          setTournaments(data);
+          setTournaments(data || []);
         }
       } catch (err) {
         console.error('Error fetching tournaments:', err);
@@ -45,7 +43,6 @@ const Index: React.FC = () => {
 
     return () => {
       isMounted = false;
-      setMounted(false);
     };
   }, []);
 
