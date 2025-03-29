@@ -23,7 +23,6 @@ const Index: React.FC = () => {
         setLoading(true);
         setError(null);
         const data = await getTournamentsList();
-        
         if (isMounted) {
           setTournaments(data || []);
         }
