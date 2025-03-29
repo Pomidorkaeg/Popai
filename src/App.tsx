@@ -49,7 +49,7 @@ const App = () => {
         <Toaster />
         <Sonner />
         <HashRouter>
-          <div className="min-h-screen flex flex-col">
+          <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-50 to-white">
             <Navbar />
             <main className="flex-grow">
               <Suspense fallback={<PageLoading />}>

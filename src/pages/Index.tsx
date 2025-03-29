@@ -64,7 +64,7 @@ const Index: React.FC = () => {
             </h2>
             <button 
               onClick={() => navigate('/tournaments')}
-              className="px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg flex items-center gap-2 hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="px-6 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg flex items-center gap-2 hover:from-green-700 hover:to-green-800 transition-all duration-300 shadow-lg hover:shadow-xl"
             >
               Все турниры
               <ArrowRight size={18} />
@@ -73,14 +73,14 @@ const Index: React.FC = () => {
           
           {loading ? (
             <div className="min-h-[400px] flex items-center justify-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-4 border-green-600 border-t-transparent"></div>
             </div>
           ) : error ? (
             <div className="min-h-[200px] flex items-center justify-center bg-red-50 rounded-xl border border-red-200">
               <p className="text-red-600">{error}</p>
             </div>
           ) : featuredTournament ? (
-            <Card className="overflow-hidden bg-gradient-to-br from-blue-50 to-white border-2 border-blue-100 hover:border-blue-200 transition-all duration-300">
+            <Card className="overflow-hidden bg-gradient-to-br from-green-50 to-white border-2 border-green-100 hover:border-green-200 transition-all duration-300">
               <div className="p-8">
                 <div className="flex flex-col md:flex-row gap-6">
                   <div className="flex-1">
@@ -88,19 +88,19 @@ const Index: React.FC = () => {
                     <p className="text-gray-600 mb-6">{featuredTournament.description}</p>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       <div className="flex items-center gap-2 text-gray-600">
-                        <Calendar size={20} className="text-blue-600" />
+                        <Calendar size={20} className="text-green-600" />
                         <span>С {featuredTournament.startDate}</span>
                       </div>
                       <div className="flex items-center gap-2 text-gray-600">
-                        <Calendar size={20} className="text-blue-600" />
+                        <Calendar size={20} className="text-green-600" />
                         <span>По {featuredTournament.endDate}</span>
                       </div>
                       <div className="flex items-center gap-2 text-gray-600">
-                        <MapPin size={20} className="text-blue-600" />
+                        <MapPin size={20} className="text-green-600" />
                         <span>{featuredTournament.location}</span>
                       </div>
                       <div className="flex items-center gap-2 text-gray-600">
-                        <Users2 size={20} className="text-blue-600" />
+                        <Users2 size={20} className="text-green-600" />
                         <span>{featuredTournament.teams} команд</span>
                       </div>
                     </div>
@@ -118,7 +118,7 @@ const Index: React.FC = () => {
                   <div className="flex items-center justify-center">
                     <button 
                       onClick={() => navigate(`/tournaments/${featuredTournament.id}`)}
-                      className="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg flex items-center gap-2 hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg hover:shadow-xl"
+                      className="px-8 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg flex items-center gap-2 hover:from-green-700 hover:to-green-800 transition-all duration-300 shadow-lg hover:shadow-xl"
                     >
                       Смотреть таблицу
                       <ArrowRight size={18} />
@@ -135,7 +135,7 @@ const Index: React.FC = () => {
         </section>
 
         {/* Club Values Section */}
-        <section className="mb-16 bg-gradient-to-br from-blue-900 to-blue-800 rounded-2xl p-12 text-white">
+        <section className="mb-16 bg-gradient-to-br from-green-900 to-green-800 rounded-2xl p-12 text-white">
           <h2 className="text-3xl font-bold mb-8 text-center">Наши ценности</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
@@ -143,21 +143,21 @@ const Index: React.FC = () => {
                 <Trophy size={32} className="text-yellow-400" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Спортивное мастерство</h3>
-              <p className="text-blue-100">Стремимся к совершенству в каждом матче</p>
+              <p className="text-green-100">Стремимся к совершенству в каждом матче</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Users size={32} className="text-yellow-400" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Командный дух</h3>
-              <p className="text-blue-100">Вместе мы сильнее</p>
+              <p className="text-green-100">Вместе мы сильнее</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Target size={32} className="text-yellow-400" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Стремление к победе</h3>
-              <p className="text-blue-100">Всегда идем к своей цели</p>
+              <p className="text-green-100">Всегда идем к своей цели</p>
             </div>
           </div>
         </section>
@@ -171,7 +171,7 @@ const Index: React.FC = () => {
             </h2>
             <button 
               onClick={() => navigate('/tournaments')}
-              className="px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg flex items-center gap-2 hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="px-6 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg flex items-center gap-2 hover:from-green-700 hover:to-green-800 transition-all duration-300 shadow-lg hover:shadow-xl"
             >
               Все турниры
               <ArrowRight size={18} />
@@ -180,20 +180,20 @@ const Index: React.FC = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {tournaments.slice(0, 6).map((tournament) => (
-              <Card key={tournament.id} className="overflow-hidden bg-gradient-to-br from-blue-50 to-white border-2 border-blue-100 hover:border-blue-200 transition-all duration-300">
+              <Card key={tournament.id} className="overflow-hidden bg-gradient-to-br from-green-50 to-white border-2 border-green-100 hover:border-green-200 transition-all duration-300">
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-gray-900 mb-2">{tournament.name}</h3>
                   <p className="text-gray-600 mb-4">{tournament.description}</p>
                   <div className="flex items-center gap-2 text-gray-600 mb-4">
-                    <Calendar size={16} className="text-blue-600" />
+                    <Calendar size={16} className="text-green-600" />
                     <span>{tournament.startDate} - {tournament.endDate}</span>
                   </div>
                   <div className="flex items-center gap-2 text-gray-600 mb-4">
-                    <MapPin size={16} className="text-blue-600" />
+                    <MapPin size={16} className="text-green-600" />
                     <span>{tournament.location}</span>
                   </div>
                   <div className="flex items-center gap-2 text-gray-600 mb-4">
-                    <Users2 size={16} className="text-blue-600" />
+                    <Users2 size={16} className="text-green-600" />
                     <span>{tournament.teams} команд</span>
                   </div>
                   <div className="flex items-center justify-between">
@@ -207,7 +207,7 @@ const Index: React.FC = () => {
                     </span>
                     <button 
                       onClick={() => navigate(`/tournaments/${tournament.id}`)}
-                      className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg flex items-center gap-2 hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg hover:shadow-xl"
+                      className="px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg flex items-center gap-2 hover:from-green-700 hover:to-green-800 transition-all duration-300 shadow-lg hover:shadow-xl"
                     >
                       Смотреть
                       <ArrowRight size={16} />
