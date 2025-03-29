@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 import Hero from '@/components/Hero';
 import { getTournamentsList, Tournament } from '@/utils/api';
 import { Loader2 } from 'lucide-react';
@@ -30,8 +28,7 @@ const Index: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
+    <>
       <Hero />
       
       <div className="container mx-auto px-4 py-12">
@@ -79,9 +76,7 @@ const Index: React.FC = () => {
           </div>
         )}
       </div>
-
-      <Footer />
-    </div>
+    </>
   );
 };
 
