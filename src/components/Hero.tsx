@@ -1,52 +1,93 @@
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { ArrowRight, Trophy, Users, Target } from 'lucide-react';
 
-const Hero = () => {
+export const Hero: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
+    <div className="relative bg-gradient-to-br from-blue-900 to-blue-800 overflow-hidden">
+      {/* Фоновое изображение с наложением */}
       <div 
-        className="absolute inset-0 bg-gradient-to-r from-gray-900/95 to-gray-900/90 z-10"
-        style={{ 
-          backgroundImage: `url('https://images.unsplash.com/photo-1508098682722-e99c643e7f76?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundBlendMode: 'overlay'
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: 'url("/images/hero-bg.jpg")',
+          opacity: 0.1
         }}
-      ></div>
+      />
       
-      <div className="relative z-20 container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center">
-        <div className="animate-slide-up max-w-5xl">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 drop-shadow-lg tracking-tight leading-tight">
-            ФК ГУДАУТА
+      {/* Градиентный оверлей */}
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-blue-800/90" />
+      
+      <div className="relative container mx-auto px-4 py-24">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
+            Турнирные таблицы
+            <span className="block text-yellow-400 mt-2">для всех видов спорта</span>
           </h1>
           
-          <p className="text-xl md:text-2xl lg:text-3xl text-gray-200 max-w-3xl mx-auto mb-12 drop-shadow-md font-medium tracking-wide leading-relaxed">
-            Профессиональный футбольный клуб с богатой историей и традициями
+          <p className="text-xl text-blue-100 mb-12 max-w-2xl mx-auto">
+            Следите за результатами, статистикой и положением команд в реальном времени
           </p>
           
-          <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 justify-center">
-            <Link 
-              to="/tournaments" 
-              className="btn-primary bg-white hover:bg-gray-100 text-gray-900 px-8 py-4 text-lg font-semibold"
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+            <button
+              onClick={() => navigate('/tournaments')}
+              className="px-8 py-4 bg-white text-blue-900 rounded-lg flex items-center justify-center gap-2 hover:bg-blue-50 transition-all duration-300 shadow-lg hover:shadow-xl font-medium"
             >
-              Турнирные таблицы
-              <ArrowRight size={20} className="ml-2" />
-            </Link>
+              Смотреть турниры
+              <ArrowRight size={20} />
+            </button>
+            <button
+              onClick={() => navigate('/teams')}
+              className="px-8 py-4 bg-transparent border-2 border-white text-white rounded-lg flex items-center justify-center gap-2 hover:bg-white/10 transition-all duration-300"
+            >
+              Команды
+              <Users size={20} />
+            </button>
+          </div>
+          
+          {/* Статистика */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6">
+              <div className="w-12 h-12 bg-yellow-400/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Trophy size={24} className="text-yellow-400" />
+              </div>
+              <div className="text-3xl font-bold text-white mb-2">100+</div>
+              <div className="text-blue-100">Турниров</div>
+            </div>
             
-            <Link 
-              to="/matches" 
-              className="btn-secondary border-2 border-white text-white hover:bg-white/10 px-8 py-4 text-lg font-semibold"
-            >
-              Расписание матчей
-            </Link>
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6">
+              <div className="w-12 h-12 bg-yellow-400/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Users size={24} className="text-yellow-400" />
+              </div>
+              <div className="text-3xl font-bold text-white mb-2">500+</div>
+              <div className="text-blue-100">Команд</div>
+            </div>
+            
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6">
+              <div className="w-12 h-12 bg-yellow-400/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Target size={24} className="text-yellow-400" />
+              </div>
+              <div className="text-3xl font-bold text-white mb-2">1000+</div>
+              <div className="text-blue-100">Матчей</div>
+            </div>
+            
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6">
+              <div className="w-12 h-12 bg-yellow-400/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Trophy size={24} className="text-yellow-400" />
+              </div>
+              <div className="text-3xl font-bold text-white mb-2">50+</div>
+              <div className="text-blue-100">Видов спорта</div>
+            </div>
           </div>
         </div>
       </div>
       
-      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-gray-900 to-transparent z-10"></div>
+      {/* Декоративные элементы */}
+      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white to-transparent" />
+      <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-400/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-400/10 rounded-full blur-3xl" />
     </div>
   );
 };
-
-export default Hero;
