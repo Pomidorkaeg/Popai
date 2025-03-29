@@ -62,7 +62,7 @@ export const LazyTournamentTable: React.FC<LazyTournamentTableProps> = ({ tourna
         >
           Повторить попытку
         </button>
-      </div>
+    </div>
     );
   }
 
@@ -70,8 +70,8 @@ export const LazyTournamentTable: React.FC<LazyTournamentTableProps> = ({ tourna
     return (
       <div className="text-center py-8 text-gray-600">
         Нет данных для отображения
-      </div>
-    );
+  </div>
+);
   }
 
   return (

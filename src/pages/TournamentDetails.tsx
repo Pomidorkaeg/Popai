@@ -1,16 +1,15 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { fetchTournamentData } from '@/utils/api';
+import { getTournamentTable } from '@/utils/api';
 import { Loader2 } from 'lucide-react';
-import { Trophy, Calendar, Users, MapPin, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const TournamentDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { data, isLoading, error } = useQuery({
     queryKey: ['tournament', id],
-    queryFn: () => fetchTournamentData(id || ''),
+    queryFn: () => getTournamentTable(id || ''),
   });
 
   if (isLoading) {
@@ -41,7 +40,7 @@ const TournamentDetails: React.FC = () => {
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="container mx-auto px-4">
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">{data.title}</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">{data.name}</h1>
           <p className="text-gray-600">Сезон: {data.season}</p>
           <p className="text-gray-600">Последнее обновление: {data.lastUpdated}</p>
         </div>

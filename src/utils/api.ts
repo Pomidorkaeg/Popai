@@ -84,129 +84,86 @@ export interface Tournament {
 
 export const getTournamentsList = async (): Promise<Tournament[]> => {
   try {
-    // В реальном приложении здесь будет API-запрос
-    const tournaments = [
+    // Возвращаем тестовые данные
+    return [
       {
         id: '1',
-        name: "Кубок среди любительских команд МОО СФФ «Сибирь»",
-        description: "Турнир среди любительских команд Сибирского федерального округа",
-        startDate: "01.03.2024",
-        endDate: "30.06.2024",
-        location: "Сибирский федеральный округ",
-        status: "active",
-        teams: 8,
-        source: "sff-siberia.ru"
+        name: 'Чемпионат России 2024',
+        description: 'Профессиональный футбольный турнир',
+        startDate: '2024-03-01',
+        endDate: '2024-11-30',
+        status: 'active',
+        teams: [],
+        matches: [],
+        standings: []
       },
       {
         id: '2',
-        name: "Чемпионат города по футболу",
-        description: "Городской чемпионат по футболу среди любительских команд",
-        startDate: "15.02.2024",
-        endDate: "15.05.2024",
-        location: "Москва",
-        status: "active",
-        teams: 12,
-        source: "sff-siberia.ru"
-      },
-      {
-        id: '3',
-        name: "Кубок области",
-        description: "Кубок области по футболу среди любительских команд",
-        startDate: "01.01.2024",
-        endDate: "28.02.2024",
-        location: "Московская область",
-        status: "completed",
-        teams: 16,
-        source: "sff-siberia.ru"
+        name: 'Кубок России 2024',
+        description: 'Кубковый турнир',
+        startDate: '2024-04-01',
+        endDate: '2024-12-31',
+        status: 'active',
+        teams: [],
+        matches: [],
+        standings: []
       }
     ];
-    return tournaments;
   } catch (error) {
     console.error('Error fetching tournaments:', error);
-    return [];
+    throw new Error('Failed to fetch tournaments');
   }
 };
 
 export const getTournamentTable = async (tournamentId: string): Promise<TournamentData> => {
   try {
-    // В реальном приложении здесь будет API-запрос
-    const data = {
-      title: "Кубок среди любительских команд МОО СФФ «Сибирь»",
-      season: "2024",
-      lastUpdated: new Date().toLocaleDateString('ru-RU'),
+    // Возвращаем тестовые данные
+    return {
+      title: 'Чемпионат России 2024',
+      season: '2024',
+      lastUpdated: new Date().toISOString(),
       teams: [
         {
           position: 1,
-          name: "«Бурятия» (Улан-Удэ)",
-          played: 7,
-          won: 5,
+          name: 'Зенит',
+          played: 10,
+          won: 8,
           drawn: 2,
           lost: 0,
-          goalsFor: 15,
-          goalsAgainst: 6,
-          goalDifference: 9,
-          points: 17
+          goalsFor: 25,
+          goalsAgainst: 5,
+          goalDifference: 20,
+          points: 26
         },
         {
           position: 2,
-          name: "«Распадская» (Междуреченск)",
-          played: 7,
-          won: 4,
-          drawn: 0,
-          lost: 3,
-          goalsFor: 9,
-          goalsAgainst: 4,
-          goalDifference: 5,
-          points: 12
+          name: 'ЦСКА',
+          played: 10,
+          won: 7,
+          drawn: 2,
+          lost: 1,
+          goalsFor: 20,
+          goalsAgainst: 8,
+          goalDifference: 12,
+          points: 23
         }
       ],
       topScorers: [
-        {
-          position: 1,
-          name: "Рыбованов Алексей",
-          team: "Бурятия",
-          goals: 5
-        },
-        {
-          position: 2,
-          name: "Бекеровский Андрей",
-          team: "Темп",
-          goals: 4
-        }
+        { position: 1, name: 'Иван Иванов', team: 'Зенит', goals: 10 },
+        { position: 2, name: 'Петр Петров', team: 'ЦСКА', goals: 8 }
       ],
       warnings: [
-        {
-          position: 1,
-          name: "Рыбованов Алексей",
-          team: "Бурятия",
-          warnings: 4
-        },
-        {
-          position: 2,
-          name: "Голополобов Евгений",
-          team: "Распадская",
-          warnings: 4
-        }
+        { position: 1, name: 'Алексей Сидоров', team: 'Зенит', warnings: 3 },
+        { position: 2, name: 'Дмитрий Смирнов', team: 'ЦСКА', warnings: 2 }
       ],
       expulsions: [
-        {
-          position: 1,
-          name: "Абдуллаев Степан",
-          team: "Енисей-М",
-          expulsions: 1
-        },
-        {
-          position: 2,
-          name: "Воропаев Кирилл",
-          team: "Распадская",
-          expulsions: 1
-        }
+        { position: 1, name: 'Сергей Кузнецов', team: 'Зенит', expulsions: 1 },
+        { position: 2, name: 'Андрей Попов', team: 'ЦСКА', expulsions: 1 }
       ]
     };
-    return data;
   } catch (error) {
-    console.error('Error fetching tournament data:', error);
-    throw error;
+    console.error('Error fetching tournament table:', error);
+    throw new Error('Failed to fetch tournament table');
   }
 };
 

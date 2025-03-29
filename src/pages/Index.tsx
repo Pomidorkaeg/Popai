@@ -1,29 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import Hero from '@/components/Hero';
-import { getTournamentsList, Tournament } from '@/utils/api';
+import { getTournamentsList } from '@/utils/api';
 import { Loader2 } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
 
 const Index: React.FC = () => {
-  const [tournaments, setTournaments] = useState<Tournament[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const loadTournaments = async () => {
-      try {
-        const data = await getTournamentsList();
-        setTournaments(data);
-      } catch (err) {
-        console.error('Error loading tournaments:', err);
-        setError('Ошибка при загрузке списка турниров');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadTournaments();
-  }, []);
+  const { data: tournaments, isLoading, error } = useQuery({
+    queryKey: ['tournaments'],
+    queryFn: getTournamentsList,
+  });
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -36,13 +22,13 @@ const Index: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {loading ? (
+          {isLoading ? (
             <div className="col-span-full flex items-center justify-center h-64">
               <Loader2 className="h-8 w-8 animate-spin text-green-600" />
             </div>
           ) : error ? (
             <div className="col-span-full text-center py-8">
-              <p className="text-red-600 mb-4">{error}</p>
+              <p className="text-red-600 mb-4">Ошибка при загрузке списка турниров</p>
               <button
                 onClick={() => window.location.reload()}
                 className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
@@ -50,12 +36,12 @@ const Index: React.FC = () => {
                 Повторить попытку
               </button>
             </div>
-          ) : tournaments.length === 0 ? (
+          ) : tournaments?.length === 0 ? (
             <div className="col-span-full text-center py-8 text-gray-600">
               Турниры не найдены
             </div>
           ) : (
-            tournaments.slice(0, 3).map((tournament) => (
+            tournaments?.slice(0, 3).map((tournament) => (
               <div
                 key={tournament.id}
                 className="bg-white rounded-xl shadow-sm p-6 hover:shadow-lg transition-shadow duration-200"
