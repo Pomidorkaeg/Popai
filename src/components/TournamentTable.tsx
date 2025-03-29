@@ -54,7 +54,7 @@ const TournamentTable: React.FC<TournamentTableProps> = ({
     return (
       <div className="min-h-[400px] flex flex-col items-center justify-center p-6 rounded-xl border border-gray-200 bg-white/50">
         <div className="animate-spin mb-4">
-          <RefreshCw size={32} className="text-gray-900" />
+          <RefreshCw size={32} className="text-fc-green" />
         </div>
         <p className="text-gray-500">Загрузка турнирной таблицы...</p>
       </div>
@@ -64,12 +64,12 @@ const TournamentTable: React.FC<TournamentTableProps> = ({
   if (error) {
     return (
       <div className="min-h-[200px] flex flex-col items-center justify-center p-6 rounded-xl border border-red-200 bg-red-50">
-        <AlertTriangle size={32} className="text-red-600 mb-4" />
-        <p className="text-red-600 font-medium mb-2">Ошибка загрузки данных</p>
+        <AlertTriangle size={32} className="text-fc-red mb-4" />
+        <p className="text-fc-red font-medium mb-2">Ошибка загрузки данных</p>
         <p className="text-gray-500 mb-4 text-center">{error}</p>
         <button 
           onClick={handleRefresh} 
-          className="px-4 py-2 bg-gray-900 text-white rounded-md flex items-center gap-2 hover:bg-gray-800 transition-colors duration-300"
+          className="px-4 py-2 bg-fc-green text-white rounded-md flex items-center gap-2 hover:bg-fc-darkGreen transition-colors duration-300"
         >
           <RefreshCw size={16} />
           Повторить попытку
@@ -123,7 +123,7 @@ const TournamentTable: React.FC<TournamentTableProps> = ({
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden transition-all duration-300">
       <div className="p-6 border-b border-gray-100 flex flex-col md:flex-row justify-between md:items-center gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">{displayData.title}</h2>
+          <h2 className="text-2xl font-bold text-gray-800">{displayData.title}</h2>
           <div className="flex items-center gap-2 mt-2 text-gray-500">
             <Calendar size={16} />
             <span>Сезон {displayData.season}</span>
@@ -134,7 +134,7 @@ const TournamentTable: React.FC<TournamentTableProps> = ({
         
         <button 
           onClick={handleRefresh} 
-          className="px-4 py-2 bg-gray-900/10 text-gray-900 rounded-md flex items-center gap-2 hover:bg-gray-900 hover:text-white transition-colors duration-300 ml-auto"
+          className="px-4 py-2 bg-fc-green/10 text-fc-green rounded-md flex items-center gap-2 hover:bg-fc-green hover:text-white transition-colors duration-300 ml-auto"
         >
           <RefreshCw size={16} />
           Обновить
@@ -148,8 +148,8 @@ const TournamentTable: React.FC<TournamentTableProps> = ({
             className={cn(
               "px-4 py-3 text-sm font-medium flex items-center gap-2 transition-colors duration-300",
               activeTab === 'teams' 
-                ? "text-gray-900 border-b-2 border-gray-900" 
-                : "text-gray-500 hover:text-gray-900"
+                ? "text-fc-green border-b-2 border-fc-green" 
+                : "text-gray-500 hover:text-fc-green"
             )}
           >
             <Trophy size={16} />
@@ -161,8 +161,8 @@ const TournamentTable: React.FC<TournamentTableProps> = ({
             className={cn(
               "px-4 py-3 text-sm font-medium flex items-center gap-2 transition-colors duration-300",
               activeTab === 'scorers' 
-                ? "text-gray-900 border-b-2 border-gray-900" 
-                : "text-gray-500 hover:text-gray-900"
+                ? "text-fc-green border-b-2 border-fc-green" 
+                : "text-gray-500 hover:text-fc-green"
             )}
           >
             <Star size={16} />
@@ -174,8 +174,8 @@ const TournamentTable: React.FC<TournamentTableProps> = ({
             className={cn(
               "px-4 py-3 text-sm font-medium flex items-center gap-2 transition-colors duration-300",
               activeTab === 'disciplinary' 
-                ? "text-gray-900 border-b-2 border-gray-900" 
-                : "text-gray-500 hover:text-gray-900"
+                ? "text-fc-green border-b-2 border-fc-green" 
+                : "text-gray-500 hover:text-fc-green"
             )}
           >
             <AlertTriangle size={16} />
@@ -201,15 +201,29 @@ const TournamentTable: React.FC<TournamentTableProps> = ({
             </thead>
             <tbody>
               {displayData.teams.map((team) => (
-                <tr key={team.position} className="border-b border-gray-100 hover:bg-gray-50">
-                  <td className="py-3 px-4 font-medium text-gray-900">{team.position}</td>
-                  <td className="py-3 px-4 font-medium text-gray-900">{team.name}</td>
-                  <td className="py-3 px-4 text-center text-gray-600">{team.played}</td>
-                  <td className="py-3 px-4 text-center text-gray-600">{team.won}</td>
-                  <td className="py-3 px-4 text-center text-gray-600">{team.drawn}</td>
-                  <td className="py-3 px-4 text-center text-gray-600">{team.lost}</td>
-                  <td className="py-3 px-4 text-center text-gray-600">{team.goalsFor}:{team.goalsAgainst}</td>
-                  <td className="py-3 px-4 text-center font-medium text-gray-900">{team.points}</td>
+                <tr 
+                  key={`${team.position}-${team.name}`} 
+                  className="border-t border-gray-100 hover:bg-gray-50 transition-colors duration-150"
+                >
+                  <td className="py-3 px-4 text-center font-medium">
+                    {team.position <= 3 ? (
+                      <span className={cn(
+                        "flex items-center justify-center w-6 h-6 rounded-full text-white font-bold text-xs",
+                        team.position === 1 ? "bg-fc-yellow" : 
+                        team.position === 2 ? "bg-gray-400" : 
+                        "bg-[#cd7f32]" // bronze
+                      )}>
+                        {team.position}
+                      </span>
+                    ) : team.position}
+                  </td>
+                  <td className="py-3 px-4 font-medium">{team.name}</td>
+                  <td className="py-3 px-4 text-center">{team.played}</td>
+                  <td className="py-3 px-4 text-center">{team.won}</td>
+                  <td className="py-3 px-4 text-center">{team.drawn}</td>
+                  <td className="py-3 px-4 text-center">{team.lost}</td>
+                  <td className="py-3 px-4 text-center">{team.goalsFor}-{team.goalsAgainst}</td>
+                  <td className="py-3 px-4 text-center font-bold">{team.points}</td>
                 </tr>
               ))}
             </tbody>
@@ -223,16 +237,19 @@ const TournamentTable: React.FC<TournamentTableProps> = ({
                 <th className="py-3 px-4 font-medium">№</th>
                 <th className="py-3 px-4 font-medium">Игрок</th>
                 <th className="py-3 px-4 font-medium">Команда</th>
-                <th className="py-3 px-4 font-medium text-center">Голы</th>
+                <th className="py-3 px-4 font-medium text-center">Голов</th>
               </tr>
             </thead>
             <tbody>
               {displayData.topScorers.map((scorer) => (
-                <tr key={scorer.position} className="border-b border-gray-100 hover:bg-gray-50">
-                  <td className="py-3 px-4 font-medium text-gray-900">{scorer.position}</td>
-                  <td className="py-3 px-4 font-medium text-gray-900">{scorer.name}</td>
-                  <td className="py-3 px-4 text-gray-600">{scorer.team}</td>
-                  <td className="py-3 px-4 text-center font-medium text-gray-900">{scorer.goals}</td>
+                <tr 
+                  key={`${scorer.position}-${scorer.name}`} 
+                  className="border-t border-gray-100 hover:bg-gray-50 transition-colors duration-150"
+                >
+                  <td className="py-3 px-4 text-center font-medium">{scorer.position}</td>
+                  <td className="py-3 px-4 font-medium">{scorer.name}</td>
+                  <td className="py-3 px-4">{scorer.team}</td>
+                  <td className="py-3 px-4 text-center font-bold">{scorer.goals}</td>
                 </tr>
               ))}
             </tbody>
@@ -240,54 +257,64 @@ const TournamentTable: React.FC<TournamentTableProps> = ({
         )}
         
         {activeTab === 'disciplinary' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
-            <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Предупреждения</h3>
-              <table className="w-full text-left">
-                <thead>
-                  <tr className="bg-gray-50 text-gray-500 text-xs uppercase">
-                    <th className="py-3 px-4 font-medium">№</th>
-                    <th className="py-3 px-4 font-medium">Игрок</th>
-                    <th className="py-3 px-4 font-medium">Команда</th>
-                    <th className="py-3 px-4 font-medium text-center">Предупреждения</th>
+          <div>
+            <h3 className="text-lg font-semibold px-6 py-4 border-b border-gray-100">Предупреждения</h3>
+            <table className="w-full text-left">
+              <thead>
+                <tr className="bg-gray-50 text-gray-500 text-xs uppercase">
+                  <th className="py-3 px-4 font-medium">№</th>
+                  <th className="py-3 px-4 font-medium">Игрок</th>
+                  <th className="py-3 px-4 font-medium">Команда</th>
+                  <th className="py-3 px-4 font-medium text-center">Предупреждений</th>
+                </tr>
+              </thead>
+              <tbody>
+                {displayData.warnings.map((warning) => (
+                  <tr 
+                    key={`warning-${warning.position}-${warning.name}`} 
+                    className="border-t border-gray-100 hover:bg-gray-50 transition-colors duration-150"
+                  >
+                    <td className="py-3 px-4 text-center font-medium">{warning.position}</td>
+                    <td className="py-3 px-4 font-medium">{warning.name}</td>
+                    <td className="py-3 px-4">{warning.team}</td>
+                    <td className="py-3 px-4 text-center">
+                      <span className="px-2 py-1 bg-fc-yellow/10 text-fc-yellow rounded-full text-xs font-medium">
+                        {warning.warnings}
+                      </span>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {displayData.warnings.map((warning) => (
-                    <tr key={warning.position} className="border-b border-gray-100 hover:bg-gray-50">
-                      <td className="py-3 px-4 font-medium text-gray-900">{warning.position}</td>
-                      <td className="py-3 px-4 font-medium text-gray-900">{warning.name}</td>
-                      <td className="py-3 px-4 text-gray-600">{warning.team}</td>
-                      <td className="py-3 px-4 text-center font-medium text-gray-900">{warning.warnings}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                ))}
+              </tbody>
+            </table>
             
-            <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Удаления</h3>
-              <table className="w-full text-left">
-                <thead>
-                  <tr className="bg-gray-50 text-gray-500 text-xs uppercase">
-                    <th className="py-3 px-4 font-medium">№</th>
-                    <th className="py-3 px-4 font-medium">Игрок</th>
-                    <th className="py-3 px-4 font-medium">Команда</th>
-                    <th className="py-3 px-4 font-medium text-center">Удаления</th>
+            <h3 className="text-lg font-semibold px-6 py-4 border-t border-b border-gray-100 mt-4">Удаления</h3>
+            <table className="w-full text-left">
+              <thead>
+                <tr className="bg-gray-50 text-gray-500 text-xs uppercase">
+                  <th className="py-3 px-4 font-medium">№</th>
+                  <th className="py-3 px-4 font-medium">Игрок</th>
+                  <th className="py-3 px-4 font-medium">Команда</th>
+                  <th className="py-3 px-4 font-medium text-center">Удалений</th>
+                </tr>
+              </thead>
+              <tbody>
+                {displayData.expulsions.map((expulsion) => (
+                  <tr 
+                    key={`expulsion-${expulsion.position}-${expulsion.name}`} 
+                    className="border-t border-gray-100 hover:bg-gray-50 transition-colors duration-150"
+                  >
+                    <td className="py-3 px-4 text-center font-medium">{expulsion.position}</td>
+                    <td className="py-3 px-4 font-medium">{expulsion.name}</td>
+                    <td className="py-3 px-4">{expulsion.team}</td>
+                    <td className="py-3 px-4 text-center">
+                      <span className="px-2 py-1 bg-fc-red/10 text-fc-red rounded-full text-xs font-medium">
+                        {expulsion.expulsions}
+                      </span>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {displayData.expulsions.map((expulsion) => (
-                    <tr key={expulsion.position} className="border-b border-gray-100 hover:bg-gray-50">
-                      <td className="py-3 px-4 font-medium text-gray-900">{expulsion.position}</td>
-                      <td className="py-3 px-4 font-medium text-gray-900">{expulsion.name}</td>
-                      <td className="py-3 px-4 text-gray-600">{expulsion.team}</td>
-                      <td className="py-3 px-4 text-center font-medium text-gray-900">{expulsion.expulsions}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </div>
