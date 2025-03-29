@@ -83,52 +83,78 @@ export interface Tournament {
 }
 
 // This would be a real API call in production
-export const getTournamentTable = async (tournamentId: string, source: string): Promise<TournamentData> => {
-  console.log(`Fetching tournament data for ID: ${tournamentId} from source: ${source}`);
-  
-  try {
-    // В реальном приложении здесь будет API-запрос
-    // Возвращаем тестовые данные без задержки
-    return {
-      title: "Кубок среди любительских команд МОО СФФ «Сибирь» сезона 2024 года",
-      season: "2024",
-      lastUpdated: new Date().toLocaleDateString('ru-RU'),
-      teams: [
-        { position: 1, name: "«Бурятия» (Улан-Удэ)", played: 7, won: 5, drawn: 2, lost: 0, goalsFor: 15, goalsAgainst: 6, goalDifference: 9, points: 17 },
-        { position: 2, name: "«Распадская» (Междуреченск)", played: 7, won: 4, drawn: 0, lost: 3, goalsFor: 9, goalsAgainst: 4, goalDifference: 5, points: 12 },
-        { position: 3, name: "«Темп» (Барнаул)", played: 6, won: 3, drawn: 2, lost: 1, goalsFor: 9, goalsAgainst: 4, goalDifference: 5, points: 11 },
-        { position: 4, name: "«Рассвет» (Красноярск)", played: 4, won: 1, drawn: 3, lost: 0, goalsFor: 6, goalsAgainst: 3, goalDifference: 3, points: 6 },
-        { position: 5, name: "«Енисей-М» (Красноярск)", played: 6, won: 1, drawn: 3, lost: 2, goalsFor: 7, goalsAgainst: 7, goalDifference: 0, points: 6 },
-        { position: 6, name: "«Байкал» (Иркутск)", played: 4, won: 2, drawn: 0, lost: 2, goalsFor: 5, goalsAgainst: 6, goalDifference: -1, points: 6 },
-        { position: 7, name: "«ТОЦ-Хайра» (Барнаул)", played: 4, won: 1, drawn: 2, lost: 1, goalsFor: 5, goalsAgainst: 6, goalDifference: -1, points: 5 },
-        { position: 8, name: "«Восход» Ден-СРФ (Томск)", played: 2, won: 1, drawn: 0, lost: 1, goalsFor: 2, goalsAgainst: 3, goalDifference: -1, points: 3 },
-      ],
-      topScorers: [
-        { position: 1, name: "Рыбованов Алексей", team: "Бурятия", goals: 5 },
-        { position: 2, name: "Бекеровский Андрей", team: "Темп", goals: 4 },
-        { position: 3, name: "Винтер Даниил", team: "Рассвет", goals: 3 },
-        { position: 4, name: "Савченко Борис", team: "Енисей-М", goals: 3 },
-        { position: 5, name: "Бенедиктов Владимир", team: "Байкал", goals: 2 },
-      ],
-      warnings: [
-        { position: 1, name: "Рыбованов Алексей", team: "Бурятия", warnings: 4 },
-        { position: 2, name: "Голополобов Евгений", team: "Распадская", warnings: 4 },
-        { position: 3, name: "Чуриков Даниил", team: "Енисей-М", warnings: 3 },
-        { position: 4, name: "Жариков Роман", team: "Темп", warnings: 2 },
-        { position: 5, name: "Голышев Александр", team: "Восход", warnings: 2 },
-      ],
-      expulsions: [
-        { position: 1, name: "Абдуллаев Степан", team: "Енисей-М", expulsions: 1 },
-        { position: 2, name: "Воропаев Кирилл", team: "Распадская", expulsions: 1 },
-        { position: 3, name: "Яковлев Егор", team: "Темп", expulsions: 1 },
-        { position: 4, name: "Пальму Ян", team: "Байкал", expulsions: 1 },
-        { position: 5, name: "Шориков Даниил", team: "Восход", expulsions: 1 },
-      ]
-    };
-  } catch (error) {
-    console.error('Error fetching tournament table:', error);
-    throw new Error('Не удалось загрузить данные турнирной таблицы');
-  }
+export const getTournamentTable = async (tournamentId: string): Promise<TournamentData> => {
+  // В реальном приложении здесь будет API-запрос
+  return {
+    teams: [
+      {
+        position: 1,
+        name: "Команда 1",
+        played: 10,
+        won: 7,
+        drawn: 2,
+        lost: 1,
+        goalsFor: 25,
+        goalsAgainst: 8,
+        goalDifference: 17,
+        points: 23
+      },
+      {
+        position: 2,
+        name: "Команда 2",
+        played: 10,
+        won: 6,
+        drawn: 3,
+        lost: 1,
+        goalsFor: 20,
+        goalsAgainst: 10,
+        goalDifference: 10,
+        points: 21
+      }
+    ],
+    topScorers: [
+      {
+        position: 1,
+        name: "Игрок 1",
+        team: "Команда 1",
+        goals: 12
+      },
+      {
+        position: 2,
+        name: "Игрок 2",
+        team: "Команда 2",
+        goals: 10
+      }
+    ],
+    warnings: [
+      {
+        position: 1,
+        name: "Игрок 3",
+        team: "Команда 1",
+        warnings: 3
+      },
+      {
+        position: 2,
+        name: "Игрок 4",
+        team: "Команда 2",
+        warnings: 2
+      }
+    ],
+    expulsions: [
+      {
+        position: 1,
+        name: "Игрок 5",
+        team: "Команда 1",
+        expulsions: 1
+      },
+      {
+        position: 2,
+        name: "Игрок 6",
+        team: "Команда 2",
+        expulsions: 1
+      }
+    ]
+  };
 };
 
 export const getTournamentsList = async (): Promise<Tournament[]> => {
@@ -182,7 +208,7 @@ export const fetchTournamentData = async (tournamentId: string): Promise<Tournam
   }
   
   try {
-    const data = await getTournamentTable(tournamentId, source);
+    const data = await getTournamentTable(tournamentId);
     return data;
   } catch (error) {
     console.error("Error fetching tournament data:", error);
