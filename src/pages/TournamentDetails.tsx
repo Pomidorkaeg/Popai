@@ -10,6 +10,8 @@ const TournamentDetails: React.FC = () => {
     queryKey: ['tournament', id],
     queryFn: () => getTournamentTable(id || ''),
     enabled: !!id,
+    staleTime: 0, // Отключаем кэширование
+    cacheTime: 0, // Отключаем кэширование
   });
 
   if (isLoading) {
