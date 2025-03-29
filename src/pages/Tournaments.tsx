@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import TournamentCard from '@/components/TournamentCard';
@@ -15,26 +14,24 @@ export default function Tournaments() {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
 
-  const fetchTournaments = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const data = await getTournamentsList();
-      if (data && data.length > 0) {
-        setTournaments(data);
-        setSelectedTournament(data[0]);
-      } else {
-        setError('Нет доступных турниров');
-      }
-    } catch (err) {
-      setError('Ошибка при загрузке турниров');
-      console.error('Error fetching tournaments:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchTournaments = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await getTournamentsList();
+        setTournaments(data);
+        if (data.length > 0) {
+          setSelectedTournament(data[0]);
+        }
+      } catch (err) {
+        setError('Ошибка при загрузке турниров');
+        console.error('Error fetching tournaments:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchTournaments();
   }, []);
 
@@ -43,40 +40,6 @@ export default function Tournaments() {
     const matchesStatus = statusFilter === 'all' || tournament.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
-        <Navbar />
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex items-center justify-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
-        <Navbar />
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center">
-            <p className="text-red-600 mb-4">{error}</p>
-            <button
-              onClick={fetchTournaments}
-              className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
-            >
-              Повторить попытку
-            </button>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
@@ -119,14 +82,34 @@ export default function Tournaments() {
 
             {/* Список турниров */}
             <div className="space-y-4">
-              {filteredTournaments.map((tournament) => (
-                <TournamentCard
-                  key={tournament.id}
-                  tournament={tournament}
-                  isSelected={selectedTournament?.id === tournament.id}
-                  onClick={() => setSelectedTournament(tournament)}
-                />
-              ))}
+              {loading ? (
+                <div className="flex items-center justify-center h-32">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
+                </div>
+              ) : error ? (
+                <div className="text-center py-4">
+                  <p className="text-red-600 mb-4">{error}</p>
+                  <button
+                    onClick={() => window.location.reload()}
+                    className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                  >
+                    Повторить попытку
+                  </button>
+                </div>
+              ) : filteredTournaments.length === 0 ? (
+                <div className="text-center py-4 text-gray-600">
+                  Турниры не найдены
+                </div>
+              ) : (
+                filteredTournaments.map((tournament) => (
+                  <TournamentCard
+                    key={tournament.id}
+                    tournament={tournament}
+                    isSelected={selectedTournament?.id === tournament.id}
+                    onClick={() => setSelectedTournament(tournament)}
+                  />
+                ))
+              )}
             </div>
           </div>
 
