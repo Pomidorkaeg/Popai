@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import React, { lazy, Suspense } from 'react';
 
 // Lazy load the actual TournamentTable component
 const TournamentTable = lazy(() => import('./TournamentTable'));
@@ -16,15 +16,21 @@ const TableLoading = () => (
   </div>
 );
 
-interface LazyTournamentTableProps {
-  tournamentId: string;
-  source: string;
-}
-
-export default function LazyTournamentTable({ tournamentId, source }: LazyTournamentTableProps) {
+// Lightweight wrapper that handles the lazy loading
+const LazyTournamentTable = ({ 
+  tournamentId, 
+  source 
+}: { 
+  tournamentId: string; 
+  source: string 
+}) => {
   return (
-    <Suspense fallback={<TableLoading />}>
-      <TournamentTable tournamentId={tournamentId} source={source} />
-    </Suspense>
+    <div className="p-6">
+      <Suspense fallback={<TableLoading />}>
+        <TournamentTable tournamentId={tournamentId} source={source} />
+      </Suspense>
+    </div>
   );
-}
+};
+
+export default LazyTournamentTable;

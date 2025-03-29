@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronRight, Trophy } from 'lucide-react';
@@ -29,22 +28,22 @@ const TournamentCard: React.FC<TournamentCardProps> = ({
       className={cn(
         "block rounded-xl overflow-hidden card-hover border transition-all duration-300",
         featured 
-          ? "bg-gradient-to-br from-fc-green/5 to-fc-green/20 border-fc-green" 
-          : "bg-white border-gray-200 hover:border-fc-green/50"
+          ? "bg-gradient-to-br from-gray-900/5 to-gray-900/20 border-gray-900" 
+          : "bg-white border-gray-200 hover:border-gray-900/50"
       )}
     >
       <div className="p-6">
         <div className="mb-4 flex items-center justify-between">
           <div className={cn(
             "flex items-center justify-center w-12 h-12 rounded-full",
-            featured ? "bg-fc-green text-white" : "bg-fc-green/10 text-fc-green"
+            featured ? "bg-gray-900 text-white" : "bg-gray-900/10 text-gray-900"
           )}>
             <Trophy size={20} />
           </div>
           
           <span className={cn(
             "text-sm font-medium px-3 py-1 rounded-full",
-            featured ? "bg-fc-yellow/20 text-fc-yellow" : "bg-gray-100 text-gray-600"
+            featured ? "bg-gray-900/20 text-gray-900" : "bg-gray-100 text-gray-600"
           )}>
             {season}
           </span>
@@ -52,7 +51,7 @@ const TournamentCard: React.FC<TournamentCardProps> = ({
         
         <h3 className={cn(
           "text-xl font-bold mb-2 line-clamp-2",
-          featured ? "text-fc-green" : "text-gray-800"
+          featured ? "text-gray-900" : "text-gray-800"
         )}>
           {title}
         </h3>
@@ -68,7 +67,7 @@ const TournamentCard: React.FC<TournamentCardProps> = ({
           
           <div className={cn(
             "flex items-center text-sm font-medium",
-            featured ? "text-fc-green" : "text-gray-600"
+            featured ? "text-gray-900" : "text-gray-600"
           )}>
             Источник: {source}
             <ChevronRight size={16} className="ml-1" />

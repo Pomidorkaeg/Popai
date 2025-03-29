@@ -1,21 +1,14 @@
-import { useEffect, useState } from "react";
-import { Toaster as SonnerBase } from "sonner";
+import { useTheme } from "next-themes"
+import { Toaster as Sonner } from "sonner"
 
-type ToasterProps = React.ComponentProps<typeof SonnerBase>;
+type ToasterProps = React.ComponentProps<typeof Sonner>
 
 const Toaster = ({ ...props }: ToasterProps) => {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return null;
-  }
+  const { theme = "system" } = useTheme()
 
   return (
-    <SonnerBase
+    <Sonner
+      theme={theme as ToasterProps["theme"]}
       className="toaster group"
       toastOptions={{
         classNames: {
@@ -30,7 +23,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
       }}
       {...props}
     />
-  );
-};
+  )
+}
 
-export { Toaster };
+export { Toaster }
