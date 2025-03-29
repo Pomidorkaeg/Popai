@@ -1,9 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import TournamentCard from '@/components/TournamentCard';
-import LazyTournamentTable from '@/components/LazyTournamentTable';
+import { LazyTournamentTable } from '@/components/LazyTournamentTable';
 import { Filter, Search, ChevronDown, Trophy } from 'lucide-react';
 import { getTournamentsList, Tournament } from '@/utils/api';
 
