@@ -4,30 +4,31 @@ import { getTournamentTable } from '@/utils/api';
 
 const TournamentDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const data = id ? getTournamentTable(id) : null;
-
-  if (!data) {
+  
+  if (!id) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <p className="text-red-600 mb-4">Ошибка при загрузке данных турнира</p>
+          <p className="text-red-600 mb-4">ID турнира не указан</p>
           <Link
-            to="/tournaments"
+            to="/"
             className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors inline-block"
           >
-            Вернуться к списку турниров
+            Вернуться на главную
           </Link>
         </div>
       </div>
     );
   }
 
+  const data = getTournamentTable(id);
+
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="container mx-auto px-4">
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
           <Link
-            to="/tournaments"
+            to="/"
             className="text-green-600 hover:text-green-700 mb-4 inline-block"
           >
             ← Назад к списку турниров

@@ -98,8 +98,8 @@ export const getTournamentsList = (): Tournament[] => {
       id: '2',
       name: 'Кубок России 2024',
       description: 'Кубковый турнир',
-      startDate: '2024-04-01',
-      endDate: '2024-12-31',
+      startDate: '2024-02-15',
+      endDate: '2024-05-30',
       status: 'active',
       location: 'Россия',
       teams: 32
@@ -110,54 +110,75 @@ export const getTournamentsList = (): Tournament[] => {
 export const getTournamentTable = (tournamentId: string): TournamentData => {
   return {
     title: 'Чемпионат России 2024',
-    season: '2024',
-    lastUpdated: new Date().toLocaleDateString('ru-RU'),
+    season: '2023/2024',
+    lastUpdated: '2024-03-15',
     teams: [
       {
         position: 1,
         name: 'Зенит',
-        played: 10,
-        won: 8,
-        drawn: 2,
-        lost: 0,
-        goalsFor: 25,
-        goalsAgainst: 5,
-        goalDifference: 20,
-        points: 26
+        played: 20,
+        won: 15,
+        drawn: 3,
+        lost: 2,
+        goalsFor: 45,
+        goalsAgainst: 15,
+        goalDifference: 30,
+        points: 48
       },
       {
         position: 2,
         name: 'ЦСКА',
-        played: 10,
-        won: 7,
-        drawn: 2,
-        lost: 1,
-        goalsFor: 20,
-        goalsAgainst: 8,
-        goalDifference: 12,
-        points: 23
+        played: 20,
+        won: 14,
+        drawn: 4,
+        lost: 2,
+        goalsFor: 40,
+        goalsAgainst: 18,
+        goalDifference: 22,
+        points: 46
       }
     ],
     topScorers: [
-      { position: 1, name: 'Иван Иванов', team: 'Зенит', goals: 10 },
-      { position: 2, name: 'Петр Петров', team: 'ЦСКА', goals: 8 }
+      {
+        position: 1,
+        name: 'Иван Иванов',
+        team: 'Зенит',
+        goals: 15
+      },
+      {
+        position: 2,
+        name: 'Петр Петров',
+        team: 'ЦСКА',
+        goals: 12
+      }
     ],
     warnings: [
-      { position: 1, name: 'Алексей Сидоров', team: 'Зенит', warnings: 3 },
-      { position: 2, name: 'Дмитрий Смирнов', team: 'ЦСКА', warnings: 2 }
+      {
+        position: 1,
+        name: 'Алексей Сидоров',
+        team: 'Зенит',
+        warnings: 5
+      },
+      {
+        position: 2,
+        name: 'Дмитрий Кузнецов',
+        team: 'ЦСКА',
+        warnings: 4
+      }
     ],
     expulsions: [
-      { position: 1, name: 'Сергей Кузнецов', team: 'Зенит', expulsions: 1 },
-      { position: 2, name: 'Андрей Попов', team: 'ЦСКА', expulsions: 1 }
+      {
+        position: 1,
+        name: 'Сергей Смирнов',
+        team: 'Зенит',
+        expulsions: 1
+      },
+      {
+        position: 2,
+        name: 'Андрей Попов',
+        team: 'ЦСКА',
+        expulsions: 1
+      }
     ]
   };
-};
-
-export const fetchTournamentData = async (tournamentId: string): Promise<TournamentData> => {
-  try {
-    return await getTournamentTable(tournamentId);
-  } catch (error) {
-    console.error('Error in fetchTournamentData:', error);
-    throw error;
-  }
 };
