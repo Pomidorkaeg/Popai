@@ -1,10 +1,11 @@
-
 import { Suspense, lazy } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HashRouter, Routes, Route } from "react-router-dom";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 // Lazy-load all route components
 const Index = lazy(() => import("./pages/Index"));
@@ -26,7 +27,7 @@ const TeamsManagement = lazy(() => import("./pages/admin/TeamsManagement"));
 // Fallback loading component
 const PageLoading = () => (
   <div className="flex h-screen w-full items-center justify-center">
-    <div className="h-10 w-10 animate-spin rounded-full border-4 border-fc-green border-t-transparent"></div>
+    <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-900 border-t-transparent"></div>
   </div>
 );
 
@@ -35,6 +36,7 @@ const queryClient = new QueryClient({
     queries: {
       staleTime: 60 * 1000, // 1 minute
       refetchOnWindowFocus: false,
+      retry: 1,
     },
   },
 });
@@ -47,31 +49,37 @@ const App = () => {
         <Toaster />
         <Sonner />
         <HashRouter>
-          <Suspense fallback={<PageLoading />}>
-            <Routes>
-              {/* Public routes */}
-              <Route path="/" element={<Index />} />
-              <Route path="/team" element={<Team />} />
-              <Route path="/news" element={<News />} />
-              <Route path="/matches" element={<Matches />} />
-              <Route path="/tournaments" element={<Tournaments />} />
-              <Route path="/tournaments/:id" element={<Tournaments />} />
-              <Route path="/media" element={<Media />} />
-              <Route path="/contacts" element={<Contacts />} />
-              
-              {/* Admin routes */}
-              <Route path="/admin" element={<AdminDashboard />}>
-                <Route index element={<AdminHome />} />
-                <Route path="players" element={<PlayersManagement />} />
-                <Route path="coaches" element={<CoachesManagement />} />
-                <Route path="teams" element={<TeamsManagement />} />
-                <Route path="tournaments" element={<AdminHome />} />
-              </Route>
-              
-              {/* 404 */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
+          <div className="min-h-screen flex flex-col">
+            <Navbar />
+            <main className="flex-grow">
+              <Suspense fallback={<PageLoading />}>
+                <Routes>
+                  {/* Public routes */}
+                  <Route path="/" element={<Index />} />
+                  <Route path="/team" element={<Team />} />
+                  <Route path="/news" element={<News />} />
+                  <Route path="/matches" element={<Matches />} />
+                  <Route path="/tournaments" element={<Tournaments />} />
+                  <Route path="/tournaments/:id" element={<Tournaments />} />
+                  <Route path="/media" element={<Media />} />
+                  <Route path="/contacts" element={<Contacts />} />
+                  
+                  {/* Admin routes */}
+                  <Route path="/admin" element={<AdminDashboard />}>
+                    <Route index element={<AdminHome />} />
+                    <Route path="players" element={<PlayersManagement />} />
+                    <Route path="coaches" element={<CoachesManagement />} />
+                    <Route path="teams" element={<TeamsManagement />} />
+                    <Route path="tournaments" element={<AdminHome />} />
+                  </Route>
+                  
+                  {/* 404 */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </main>
+            <Footer />
+          </div>
         </HashRouter>
       </TooltipProvider>
     </QueryClientProvider>

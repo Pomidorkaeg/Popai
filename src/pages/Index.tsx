@@ -12,20 +12,23 @@ const Index = () => {
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
   const [loading, setLoading] = useState(true);
   const [featuredTournament, setFeaturedTournament] = useState<Tournament | null>(null);
+  const [error, setError] = useState<string | null>(null);
   
   useEffect(() => {
     const fetchTournaments = async () => {
       try {
+        setLoading(true);
+        setError(null);
         const data = await getTournamentsList();
         setTournaments(data);
         
         // Set featured tournament (first featured one or first in the list)
         const featured = data.find((t: any) => t.featured) || data[0];
         setFeaturedTournament(featured);
-        
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching tournaments:", error);
+        setError("Не удалось загрузить данные турниров");
+      } finally {
         setLoading(false);
       }
     };
@@ -59,7 +62,11 @@ const Index = () => {
             </div>
             
             <div className="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200">
-              {featuredTournament && !loading ? (
+              {error ? (
+                <div className="min-h-[400px] flex items-center justify-center text-red-600">
+                  {error}
+                </div>
+              ) : featuredTournament && !loading ? (
                 <LazyTournamentTable 
                   tournamentId={featuredTournament.id} 
                   source={featuredTournament.source} 
@@ -144,7 +151,11 @@ const Index = () => {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {loading ? (
+              {error ? (
+                <div className="col-span-full text-center text-red-600">
+                  {error}
+                </div>
+              ) : loading ? (
                 Array(3).fill(0).map((_, index) => (
                   <div key={index} className="h-72 rounded-xl bg-gray-100 animate-pulse shadow"></div>
                 ))
