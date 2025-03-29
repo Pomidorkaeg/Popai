@@ -1,9 +1,8 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getTournamentTable } from '@/utils/api';
 import { Loader2 } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 const TournamentDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -40,7 +39,13 @@ const TournamentDetails: React.FC = () => {
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="container mx-auto px-4">
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">{data.name}</h1>
+          <Link
+            to="/tournaments"
+            className="text-green-600 hover:text-green-700 mb-4 inline-block"
+          >
+            ← Назад к списку турниров
+          </Link>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">{data.title}</h1>
           <p className="text-gray-600">Сезон: {data.season}</p>
           <p className="text-gray-600">Последнее обновление: {data.lastUpdated}</p>
         </div>
@@ -88,7 +93,7 @@ const TournamentDetails: React.FC = () => {
               <div className="space-y-2">
                 {data.topScorers.map((scorer) => (
                   <div key={scorer.position} className="flex justify-between items-center">
-                    <span>{scorer.name}</span>
+                    <span>{scorer.name} ({scorer.team})</span>
                     <span className="font-bold">{scorer.goals}</span>
                   </div>
                 ))}
@@ -100,7 +105,7 @@ const TournamentDetails: React.FC = () => {
               <div className="space-y-2">
                 {data.warnings.map((warning) => (
                   <div key={warning.position} className="flex justify-between items-center">
-                    <span>{warning.name}</span>
+                    <span>{warning.name} ({warning.team})</span>
                     <span className="font-bold">{warning.warnings}</span>
                   </div>
                 ))}
@@ -112,7 +117,7 @@ const TournamentDetails: React.FC = () => {
               <div className="space-y-2">
                 {data.expulsions.map((expulsion) => (
                   <div key={expulsion.position} className="flex justify-between items-center">
-                    <span>{expulsion.name}</span>
+                    <span>{expulsion.name} ({expulsion.team})</span>
                     <span className="font-bold">{expulsion.expulsions}</span>
                   </div>
                 ))}
