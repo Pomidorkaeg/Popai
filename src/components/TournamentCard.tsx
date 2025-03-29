@@ -1,80 +1,49 @@
 import React from 'react';
-import { Trophy, Users, Calendar, MapPin } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useNavigate } from 'react-router-dom';
-import { Card } from '@/components/ui/card';
-import { ArrowRight } from 'lucide-react';
+import { Trophy, Calendar, MapPin, Users } from 'lucide-react';
+import { Tournament } from '@/utils/api';
 
 interface TournamentCardProps {
-  id: string;
-  title: string;
-  type: string;
-  season: string;
-  teams: number;
-  source: string;
-  featured?: boolean;
-  tournament: {
-    id: string;
-    name: string;
-    description: string;
-    startDate: string;
-    endDate: string;
-    location: string;
-    teams: number;
-    status: string;
-  };
+  tournament: Tournament;
+  isSelected?: boolean;
+  onClick?: () => void;
 }
 
-const TournamentCard: React.FC<TournamentCardProps> = ({
-  id,
-  title,
-  type,
-  season,
-  teams,
-  source,
-  featured = false,
-  tournament
-}) => {
-  const navigate = useNavigate();
-
+export default function TournamentCard({ tournament, isSelected, onClick }: TournamentCardProps) {
   return (
-    <Card className="overflow-hidden bg-gradient-to-br from-green-50 to-white border-2 border-green-100 hover:border-green-200 transition-all duration-300">
-      <div className="p-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-2">{tournament.name}</h3>
-        <p className="text-gray-600 mb-4">{tournament.description}</p>
-        <div className="flex items-center gap-2 text-gray-600 mb-4">
-          <Calendar size={16} className="text-green-600" />
-          <span>{tournament.startDate} - {tournament.endDate}</span>
+    <div
+      onClick={onClick}
+      className={`bg-white rounded-xl shadow-sm p-6 cursor-pointer transition-all duration-200 hover:shadow-md ${
+        isSelected ? 'ring-2 ring-green-500' : ''
+      }`}
+    >
+      <div className="flex items-start justify-between mb-4">
+        <div>
+          <h3 className="text-lg font-semibold text-gray-900 mb-1">{tournament.name}</h3>
+          <p className="text-sm text-gray-600">{tournament.description}</p>
         </div>
-        <div className="flex items-center gap-2 text-gray-600 mb-4">
-          <MapPin size={16} className="text-green-600" />
-          <span>{tournament.location}</span>
-        </div>
-        <div className="flex items-center gap-2 text-gray-600 mb-4">
-          <Users size={16} className="text-green-600" />
-          <span>{tournament.teams} команд</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className={cn(
-            "px-3 py-1 rounded-full text-sm font-medium",
-            tournament.status === 'active' 
-              ? "bg-green-100 text-green-800" 
-              : "bg-yellow-100 text-yellow-800"
-          )}>
-            {tournament.status === 'active' ? 'Активный' : 'Завершен'}
-          </span>
-          <button 
-            onClick={() => navigate(`/tournaments/${tournament.id}`)}
-            className="px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg flex items-center gap-2 hover:from-green-700 hover:to-green-800 transition-all duration-300 shadow-lg hover:shadow-xl"
-          >
-            Смотреть
-            <ArrowRight size={16} />
-          </button>
+        <div className="flex items-center gap-1 text-green-600">
+          <Trophy className="h-5 w-5" />
+          <span className="text-sm font-medium">{tournament.status}</span>
         </div>
       </div>
-    </Card>
-  );
-};
 
-export default TournamentCard;
+      <div className="space-y-2">
+        <div className="flex items-center gap-2 text-gray-600">
+          <Calendar className="h-4 w-4" />
+          <span className="text-sm">
+            {tournament.startDate} - {tournament.endDate}
+          </span>
+        </div>
+        <div className="flex items-center gap-2 text-gray-600">
+          <MapPin className="h-4 w-4" />
+          <span className="text-sm">{tournament.location}</span>
+        </div>
+        <div className="flex items-center gap-2 text-gray-600">
+          <Users className="h-4 w-4" />
+          <span className="text-sm">{tournament.teams} команд</span>
+        </div>
+      </div>
+    </div>
+  );
+}
 

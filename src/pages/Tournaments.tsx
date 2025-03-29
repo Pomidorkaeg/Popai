@@ -20,9 +20,11 @@ export default function Tournaments() {
         setLoading(true);
         setError(null);
         const data = await getTournamentsList();
-        setTournaments(data);
-        if (data.length > 0) {
+        if (data && data.length > 0) {
+          setTournaments(data);
           setSelectedTournament(data[0]);
+        } else {
+          setError('Нет доступных турниров');
         }
       } catch (err) {
         setError('Ошибка при загрузке турниров');
