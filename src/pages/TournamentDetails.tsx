@@ -1,28 +1,12 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import { getTournamentTable } from '@/utils/api';
-import { Loader2 } from 'lucide-react';
 
 const TournamentDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['tournament', id],
-    queryFn: () => getTournamentTable(id || ''),
-    enabled: !!id,
-    staleTime: 0, // Отключаем кэширование
-    cacheTime: 0, // Отключаем кэширование
-  });
+  const data = id ? getTournamentTable(id) : null;
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-green-600" />
-      </div>
-    );
-  }
-
-  if (error || !data) {
+  if (!data) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">

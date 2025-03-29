@@ -82,8 +82,7 @@ export interface Tournament {
   status: string;
 }
 
-export const getTournamentsList = async (): Promise<Tournament[]> => {
-  // Возвращаем тестовые данные без try-catch
+export const getTournamentsList = (): Tournament[] => {
   return [
     {
       id: '1',
@@ -108,8 +107,7 @@ export const getTournamentsList = async (): Promise<Tournament[]> => {
   ];
 };
 
-export const getTournamentTable = async (tournamentId: string): Promise<TournamentData> => {
-  // Возвращаем тестовые данные без try-catch
+export const getTournamentTable = (tournamentId: string): TournamentData => {
   return {
     title: 'Чемпионат России 2024',
     season: '2024',
