@@ -10,6 +10,7 @@ import { getTournamentsList, Tournament } from '@/utils/api';
 const Tournaments = () => {
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedTournament, setSelectedTournament] = useState<Tournament | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState('all');
@@ -17,12 +18,17 @@ const Tournaments = () => {
   useEffect(() => {
     const fetchTournaments = async () => {
       try {
+        setLoading(true);
+        setError(null);
         const data = await getTournamentsList();
         setTournaments(data);
-        setSelectedTournament(data[0]); // Select the first tournament by default
-        setLoading(false);
+        if (data.length > 0) {
+          setSelectedTournament(data[0]);
+        }
       } catch (error) {
         console.error("Error fetching tournaments:", error);
+        setError("Не удалось загрузить список турниров");
+      } finally {
         setLoading(false);
       }
     };
@@ -35,20 +41,15 @@ const Tournaments = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   
-  const filteredTournaments = tournaments
-    .filter((tournament) => {
-      // Apply search filter
-      if (searchQuery) {
-        return tournament.title.toLowerCase().includes(searchQuery.toLowerCase());
-      }
-      return true;
-    })
-    .filter((tournament) => {
-      // Apply category filter
-      if (filter === 'all') return true;
-      if (filter === 'featured') return tournament.featured;
-      return tournament.type.toLowerCase().includes(filter.toLowerCase());
-    });
+  const filteredTournaments = tournaments.filter((tournament) => {
+    const matchesSearch = searchQuery
+      ? tournament.name.toLowerCase().includes(searchQuery.toLowerCase())
+      : true;
+    
+    const matchesFilter = filter === 'all' || tournament.status === filter;
+    
+    return matchesSearch && matchesFilter;
+  });
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -86,7 +87,7 @@ const Tournaments = () => {
           <section className="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
             <LazyTournamentTable 
               tournamentId={selectedTournament.id} 
-              source={selectedTournament.source} 
+              source="sff-siberia.ru"
             />
           </section>
         )}
@@ -115,19 +116,26 @@ const Tournaments = () => {
                   onChange={(e) => setFilter(e.target.value)}
                   className="pl-10 pr-10 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-fc-green/50 appearance-none w-full"
                 >
-                  <option value="all">Все категории</option>
-                  <option value="featured">Популярные</option>
-                  <option value="регулярный">Регулярные</option>
-                  <option value="кубковый">Кубковые</option>
-                  <option value="городской">Городские</option>
-                  <option value="региональный">Региональные</option>
+                  <option value="all">Все статусы</option>
+                  <option value="active">Активные</option>
+                  <option value="completed">Завершенные</option>
                 </select>
                 <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
               </div>
             </div>
           </div>
           
-          {loading ? (
+          {error ? (
+            <div className="text-center py-12">
+              <p className="text-red-500 mb-4">{error}</p>
+              <button
+                onClick={() => window.location.reload()}
+                className="px-4 py-2 bg-fc-green text-white rounded-md hover:bg-fc-darkGreen transition-colors"
+              >
+                Попробовать снова
+              </button>
+            </div>
+          ) : loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {Array(6).fill(0).map((_, index) => (
                 <div key={index} className="h-72 rounded-xl bg-gray-100 animate-pulse"></div>
@@ -145,7 +153,7 @@ const Tournaments = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredTournaments.map((tournament: any) => (
+              {filteredTournaments.map((tournament) => (
                 <div 
                   key={tournament.id} 
                   onClick={() => handleTournamentSelect(tournament)}
@@ -153,12 +161,12 @@ const Tournaments = () => {
                 >
                   <TournamentCard
                     id={tournament.id}
-                    title={tournament.title}
-                    type={tournament.type}
-                    season={tournament.season}
+                    title={tournament.name}
+                    type={tournament.status}
+                    season="2024"
                     teams={tournament.teams}
-                    source={tournament.source}
-                    featured={tournament.featured}
+                    source="sff-siberia.ru"
+                    featured={false}
                   />
                 </div>
               ))}
