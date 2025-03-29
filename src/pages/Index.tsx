@@ -6,7 +6,7 @@ import { Hero } from '@/components/Hero';
 import { LazyTournamentTable } from '@/components/LazyTournamentTable';
 import { Card } from '@/components/ui/card';
 import { Trophy, Users, Target, Medal, ArrowRight, Calendar, MapPin, Users2, CheckCircle2 } from 'lucide-react';
-import { getTournaments } from '@/utils/api';
+import { getTournamentsList } from '@/utils/api';
 import { cn } from '@/lib/utils';
 
 const Index: React.FC = () => {
@@ -17,20 +17,25 @@ const Index: React.FC = () => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
     setMounted(true);
+
     const fetchTournaments = async () => {
       try {
-        const data = await getTournaments();
-        if (mounted) {
+        setLoading(true);
+        setError(null);
+        const data = await getTournamentsList();
+        
+        if (isMounted) {
           setTournaments(data);
         }
       } catch (err) {
         console.error('Error fetching tournaments:', err);
-        if (mounted) {
+        if (isMounted) {
           setError('Не удалось загрузить турниры');
         }
       } finally {
-        if (mounted) {
+        if (isMounted) {
           setLoading(false);
         }
       }
@@ -39,9 +44,10 @@ const Index: React.FC = () => {
     fetchTournaments();
 
     return () => {
+      isMounted = false;
       setMounted(false);
     };
-  }, [mounted]);
+  }, []);
 
   const featuredTournament = tournaments[0];
 
