@@ -1,14 +1,15 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import Index from '@/pages/Index';
+import Index from './pages/Index';
 import Tournaments from '@/pages/Tournaments';
-import TournamentDetails from '@/pages/TournamentDetails';
-import NotFound from '@/pages/NotFound';
+import TournamentDetails from './pages/TournamentDetails';
+import NotFound from './pages/NotFound';
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <TooltipProvider>
       <Router>
