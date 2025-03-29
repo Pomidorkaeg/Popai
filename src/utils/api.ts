@@ -86,71 +86,74 @@ export interface Tournament {
 export const getTournamentTable = async (tournamentId: string): Promise<TournamentData> => {
   // В реальном приложении здесь будет API-запрос
   return {
+    title: "Кубок среди любительских команд МОО СФФ «Сибирь»",
+    season: "2024",
+    lastUpdated: new Date().toLocaleDateString('ru-RU'),
     teams: [
       {
         position: 1,
-        name: "Команда 1",
-        played: 10,
-        won: 7,
+        name: "«Бурятия» (Улан-Удэ)",
+        played: 7,
+        won: 5,
         drawn: 2,
-        lost: 1,
-        goalsFor: 25,
-        goalsAgainst: 8,
-        goalDifference: 17,
-        points: 23
+        lost: 0,
+        goalsFor: 15,
+        goalsAgainst: 6,
+        goalDifference: 9,
+        points: 17
       },
       {
         position: 2,
-        name: "Команда 2",
-        played: 10,
-        won: 6,
-        drawn: 3,
-        lost: 1,
-        goalsFor: 20,
-        goalsAgainst: 10,
-        goalDifference: 10,
-        points: 21
+        name: "«Распадская» (Междуреченск)",
+        played: 7,
+        won: 4,
+        drawn: 0,
+        lost: 3,
+        goalsFor: 9,
+        goalsAgainst: 4,
+        goalDifference: 5,
+        points: 12
       }
     ],
     topScorers: [
       {
         position: 1,
-        name: "Игрок 1",
-        team: "Команда 1",
-        goals: 12
+        name: "Рыбованов Алексей",
+        team: "Бурятия",
+        goals: 5
       },
       {
         position: 2,
-        name: "Игрок 2",
-        team: "Команда 2",
-        goals: 10
+        name: "Бекеровский Андрей",
+        team: "Темп",
+        goals: 4
       }
     ],
     warnings: [
       {
         position: 1,
-        name: "Игрок 3",
-        team: "Команда 1",
-        warnings: 3
+        name: "Рыбованов Алексей",
+        team: "Бурятия",
+        warnings: 4
       },
       {
         position: 2,
-        name: "Игрок 4",
-        team: "Команда 2",
-        warnings: 2
+        name: "Голополобов Евгений",
+        team: "Распадская",
+        warnings: 4
       }
     ],
     expulsions: [
       {
         position: 1,
-        name: "Игрок 5",
-        team: "Команда 1",
+        name: "Абдуллаев Степан",
+        team: "Енисей-М",
         expulsions: 1
       },
       {
         position: 2,
-        name: "Игрок 6",
-        team: "Команда 2",
+        name: "Воропаев Кирилл",
+        team: "Распадская",
         expulsions: 1
       }
     ]
@@ -199,24 +202,11 @@ export const getTournamentsList = async (): Promise<Tournament[]> => {
 // In a production application, this would be a real API call
 // For now, it's just a placeholder function
 export const fetchTournamentData = async (tournamentId: string): Promise<TournamentData> => {
-  console.log(`Fetching data for tournament ID: ${tournamentId}`);
-  
-  // Determine the source based on the tournament ID
-  let source = "sff-siberia.ru";
-  if (["novosibirsk-championship", "victory-cup", "novosibirsk-region-cup"].includes(tournamentId)) {
-    source = "ffnso.ru";
-  }
-  
   try {
     const data = await getTournamentTable(tournamentId);
     return data;
   } catch (error) {
     console.error("Error fetching tournament data:", error);
-    toast({
-      variant: "destructive",
-      title: "Ошибка загрузки",
-      description: "Не удалось загрузить данные турнира",
-    });
     throw error;
   }
 };

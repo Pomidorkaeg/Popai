@@ -15,21 +15,33 @@ export const LazyTournamentTable: React.FC<LazyTournamentTableProps> = ({ tourna
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let isMounted = true;
+
     const loadData = async () => {
       try {
         setLoading(true);
         setError(null);
         const tournamentData = await fetchTournamentData(tournamentId);
-        setData(tournamentData);
+        if (isMounted) {
+          setData(tournamentData);
+        }
       } catch (err) {
-        setError('Ошибка при загрузке данных турнира');
-        console.error('Error loading tournament data:', err);
+        if (isMounted) {
+          setError('Ошибка при загрузке данных турнира');
+          console.error('Error loading tournament data:', err);
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     loadData();
+
+    return () => {
+      isMounted = false;
+    };
   }, [tournamentId]);
 
   if (loading) {
@@ -63,123 +75,130 @@ export const LazyTournamentTable: React.FC<LazyTournamentTableProps> = ({ tourna
   }
 
   return (
-    <Tabs defaultValue="teams" className="w-full">
-      <TabsList className="grid w-full grid-cols-4">
-        <TabsTrigger value="teams">Команды</TabsTrigger>
-        <TabsTrigger value="scorers">Бомбардиры</TabsTrigger>
-        <TabsTrigger value="warnings">Предупреждения</TabsTrigger>
-        <TabsTrigger value="expulsions">Удаления</TabsTrigger>
-      </TabsList>
+    <div className="space-y-4">
+      <div className="flex items-center justify-between text-sm text-gray-600">
+        <span>Сезон: {data.season}</span>
+        <span>Обновлено: {data.lastUpdated}</span>
+      </div>
+      
+      <Tabs defaultValue="teams" className="w-full">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="teams">Команды</TabsTrigger>
+          <TabsTrigger value="scorers">Бомбардиры</TabsTrigger>
+          <TabsTrigger value="warnings">Предупреждения</TabsTrigger>
+          <TabsTrigger value="expulsions">Удаления</TabsTrigger>
+        </TabsList>
 
-      <TabsContent value="teams">
-        <Card>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Поз</TableHead>
-                <TableHead>Команда</TableHead>
-                <TableHead>И</TableHead>
-                <TableHead>В</TableHead>
-                <TableHead>Н</TableHead>
-                <TableHead>П</TableHead>
-                <TableHead>М</TableHead>
-                <TableHead>РМ</TableHead>
-                <TableHead>О</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {data.teams.map((team) => (
-                <TableRow key={team.name}>
-                  <TableCell>{team.position}</TableCell>
-                  <TableCell>{team.name}</TableCell>
-                  <TableCell>{team.played}</TableCell>
-                  <TableCell>{team.won}</TableCell>
-                  <TableCell>{team.drawn}</TableCell>
-                  <TableCell>{team.lost}</TableCell>
-                  <TableCell>{team.goalsFor}-{team.goalsAgainst}</TableCell>
-                  <TableCell>{team.goalDifference}</TableCell>
-                  <TableCell>{team.points}</TableCell>
+        <TabsContent value="teams">
+          <Card>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Поз</TableHead>
+                  <TableHead>Команда</TableHead>
+                  <TableHead>И</TableHead>
+                  <TableHead>В</TableHead>
+                  <TableHead>Н</TableHead>
+                  <TableHead>П</TableHead>
+                  <TableHead>М</TableHead>
+                  <TableHead>РМ</TableHead>
+                  <TableHead>О</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Card>
-      </TabsContent>
+              </TableHeader>
+              <TableBody>
+                {data.teams.map((team) => (
+                  <TableRow key={team.name}>
+                    <TableCell>{team.position}</TableCell>
+                    <TableCell>{team.name}</TableCell>
+                    <TableCell>{team.played}</TableCell>
+                    <TableCell>{team.won}</TableCell>
+                    <TableCell>{team.drawn}</TableCell>
+                    <TableCell>{team.lost}</TableCell>
+                    <TableCell>{team.goalsFor}-{team.goalsAgainst}</TableCell>
+                    <TableCell>{team.goalDifference}</TableCell>
+                    <TableCell>{team.points}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Card>
+        </TabsContent>
 
-      <TabsContent value="scorers">
-        <Card>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Поз</TableHead>
-                <TableHead>Игрок</TableHead>
-                <TableHead>Команда</TableHead>
-                <TableHead>Голы</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {data.topScorers.map((scorer) => (
-                <TableRow key={scorer.name}>
-                  <TableCell>{scorer.position}</TableCell>
-                  <TableCell>{scorer.name}</TableCell>
-                  <TableCell>{scorer.team}</TableCell>
-                  <TableCell>{scorer.goals}</TableCell>
+        <TabsContent value="scorers">
+          <Card>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Поз</TableHead>
+                  <TableHead>Игрок</TableHead>
+                  <TableHead>Команда</TableHead>
+                  <TableHead>Голы</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Card>
-      </TabsContent>
+              </TableHeader>
+              <TableBody>
+                {data.topScorers.map((scorer) => (
+                  <TableRow key={scorer.name}>
+                    <TableCell>{scorer.position}</TableCell>
+                    <TableCell>{scorer.name}</TableCell>
+                    <TableCell>{scorer.team}</TableCell>
+                    <TableCell>{scorer.goals}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Card>
+        </TabsContent>
 
-      <TabsContent value="warnings">
-        <Card>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Поз</TableHead>
-                <TableHead>Игрок</TableHead>
-                <TableHead>Команда</TableHead>
-                <TableHead>Предупреждения</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {data.warnings.map((warning) => (
-                <TableRow key={warning.name}>
-                  <TableCell>{warning.position}</TableCell>
-                  <TableCell>{warning.name}</TableCell>
-                  <TableCell>{warning.team}</TableCell>
-                  <TableCell>{warning.warnings}</TableCell>
+        <TabsContent value="warnings">
+          <Card>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Поз</TableHead>
+                  <TableHead>Игрок</TableHead>
+                  <TableHead>Команда</TableHead>
+                  <TableHead>Предупреждения</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Card>
-      </TabsContent>
+              </TableHeader>
+              <TableBody>
+                {data.warnings.map((warning) => (
+                  <TableRow key={warning.name}>
+                    <TableCell>{warning.position}</TableCell>
+                    <TableCell>{warning.name}</TableCell>
+                    <TableCell>{warning.team}</TableCell>
+                    <TableCell>{warning.warnings}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Card>
+        </TabsContent>
 
-      <TabsContent value="expulsions">
-        <Card>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Поз</TableHead>
-                <TableHead>Игрок</TableHead>
-                <TableHead>Команда</TableHead>
-                <TableHead>Удаления</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {data.expulsions.map((expulsion) => (
-                <TableRow key={expulsion.name}>
-                  <TableCell>{expulsion.position}</TableCell>
-                  <TableCell>{expulsion.name}</TableCell>
-                  <TableCell>{expulsion.team}</TableCell>
-                  <TableCell>{expulsion.expulsions}</TableCell>
+        <TabsContent value="expulsions">
+          <Card>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Поз</TableHead>
+                  <TableHead>Игрок</TableHead>
+                  <TableHead>Команда</TableHead>
+                  <TableHead>Удаления</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Card>
-      </TabsContent>
-    </Tabs>
+              </TableHeader>
+              <TableBody>
+                {data.expulsions.map((expulsion) => (
+                  <TableRow key={expulsion.name}>
+                    <TableCell>{expulsion.position}</TableCell>
+                    <TableCell>{expulsion.name}</TableCell>
+                    <TableCell>{expulsion.team}</TableCell>
+                    <TableCell>{expulsion.expulsions}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Card>
+        </TabsContent>
+      </Tabs>
+    </div>
   );
 };
