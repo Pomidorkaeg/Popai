@@ -2,7 +2,6 @@ import { Suspense, lazy } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HashRouter, Routes, Route } from "react-router-dom";
 
 // Lazy-load all route components
@@ -29,51 +28,40 @@ const PageLoading = () => (
   </div>
 );
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 60 * 1000, // 1 minute
-      refetchOnWindowFocus: false,
-    },
-  },
-});
-
 // Always use HashRouter for compatibility with GitHub Pages
 const App = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <HashRouter>
-          <Suspense fallback={<PageLoading />}>
-            <Routes>
-              {/* Public routes */}
-              <Route path="/" element={<Index />} />
-              <Route path="/team" element={<Team />} />
-              <Route path="/news" element={<News />} />
-              <Route path="/matches" element={<Matches />} />
-              <Route path="/tournaments" element={<Tournaments />} />
-              <Route path="/tournaments/:id" element={<Tournaments />} />
-              <Route path="/media" element={<Media />} />
-              <Route path="/contacts" element={<Contacts />} />
-              
-              {/* Admin routes */}
-              <Route path="/admin" element={<AdminDashboard />}>
-                <Route index element={<AdminHome />} />
-                <Route path="players" element={<PlayersManagement />} />
-                <Route path="coaches" element={<CoachesManagement />} />
-                <Route path="teams" element={<TeamsManagement />} />
-                <Route path="tournaments" element={<AdminHome />} />
-              </Route>
-              
-              {/* 404 */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-        </HashRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <HashRouter>
+        <Suspense fallback={<PageLoading />}>
+          <Routes>
+            {/* Public routes */}
+            <Route path="/" element={<Index />} />
+            <Route path="/team" element={<Team />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/matches" element={<Matches />} />
+            <Route path="/tournaments" element={<Tournaments />} />
+            <Route path="/tournaments/:id" element={<Tournaments />} />
+            <Route path="/media" element={<Media />} />
+            <Route path="/contacts" element={<Contacts />} />
+            
+            {/* Admin routes */}
+            <Route path="/admin" element={<AdminDashboard />}>
+              <Route index element={<AdminHome />} />
+              <Route path="players" element={<PlayersManagement />} />
+              <Route path="coaches" element={<CoachesManagement />} />
+              <Route path="teams" element={<TeamsManagement />} />
+              <Route path="tournaments" element={<AdminHome />} />
+            </Route>
+            
+            {/* 404 */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+      </HashRouter>
+    </TooltipProvider>
   );
 };
 

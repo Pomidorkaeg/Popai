@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -9,25 +8,20 @@ import { getTournamentsList, Tournament } from '@/utils/api';
 
 const Tournaments = () => {
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
-  const [loading, setLoading] = useState(true);
   const [selectedTournament, setSelectedTournament] = useState<Tournament | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState('all');
   
   useEffect(() => {
-    const fetchTournaments = async () => {
-      try {
-        const data = await getTournamentsList();
-        setTournaments(data);
-        setSelectedTournament(data[0]); // Select the first tournament by default
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching tournaments:", error);
-        setLoading(false);
+    const loadTournaments = async () => {
+      const data = await getTournamentsList();
+      setTournaments(data);
+      if (data.length > 0) {
+        setSelectedTournament(data[0]);
       }
     };
     
-    fetchTournaments();
+    loadTournaments();
   }, []);
   
   const handleTournamentSelect = (tournament: Tournament) => {
@@ -37,14 +31,12 @@ const Tournaments = () => {
   
   const filteredTournaments = tournaments
     .filter((tournament) => {
-      // Apply search filter
       if (searchQuery) {
         return tournament.title.toLowerCase().includes(searchQuery.toLowerCase());
       }
       return true;
     })
     .filter((tournament) => {
-      // Apply category filter
       if (filter === 'all') return true;
       if (filter === 'featured') return tournament.featured;
       return tournament.type.toLowerCase().includes(filter.toLowerCase());
@@ -98,72 +90,42 @@ const Tournaments = () => {
             
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
                 <input
                   type="text"
-                  placeholder="Поиск турнира..."
+                  placeholder="Поиск турниров..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 pr-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-fc-green/50 w-full"
+                  className="w-full sm:w-64 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-fc-green focus:border-transparent"
                 />
+                <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               </div>
               
               <div className="relative">
-                <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
                 <select
                   value={filter}
                   onChange={(e) => setFilter(e.target.value)}
-                  className="pl-10 pr-10 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-fc-green/50 appearance-none w-full"
+                  className="w-full sm:w-48 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-fc-green focus:border-transparent appearance-none"
                 >
-                  <option value="all">Все категории</option>
-                  <option value="featured">Популярные</option>
-                  <option value="регулярный">Регулярные</option>
-                  <option value="кубковый">Кубковые</option>
-                  <option value="городской">Городские</option>
-                  <option value="региональный">Региональные</option>
+                  <option value="all">Все турниры</option>
+                  <option value="featured">Избранные</option>
+                  <option value="cup">Кубки</option>
+                  <option value="championship">Чемпионаты</option>
                 </select>
-                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
               </div>
             </div>
           </div>
           
-          {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {Array(6).fill(0).map((_, index) => (
-                <div key={index} className="h-72 rounded-xl bg-gray-100 animate-pulse"></div>
-              ))}
-            </div>
-          ) : filteredTournaments.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-gray-500 mb-4">По вашему запросу не найдено турниров</p>
-              <button
-                onClick={() => { setSearchQuery(''); setFilter('all'); }}
-                className="px-4 py-2 bg-fc-green text-white rounded-md hover:bg-fc-darkGreen transition-colors"
-              >
-                Сбросить фильтры
-              </button>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredTournaments.map((tournament: any) => (
-                <div 
-                  key={tournament.id} 
-                  onClick={() => handleTournamentSelect(tournament)}
-                  className="cursor-pointer"
-                >
-                  <TournamentCard
-                    id={tournament.id}
-                    title={tournament.title}
-                    type={tournament.type}
-                    season={tournament.season}
-                    teams={tournament.teams}
-                    source={tournament.source}
-                    featured={tournament.featured}
-                  />
-                </div>
-              ))}
-            </div>
-          )}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredTournaments.map((tournament) => (
+              <TournamentCard
+                key={tournament.id}
+                tournament={tournament}
+                isSelected={selectedTournament?.id === tournament.id}
+                onSelect={handleTournamentSelect}
+              />
+            ))}
+          </div>
         </section>
       </main>
       
@@ -173,3 +135,4 @@ const Tournaments = () => {
 };
 
 export default Tournaments;
+
