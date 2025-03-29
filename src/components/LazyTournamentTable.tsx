@@ -9,7 +9,7 @@ interface LazyTournamentTableProps {
   tournamentId: string;
 }
 
-export const LazyTournamentTable: React.FC<LazyTournamentTableProps> = ({ tournamentId }) => {
+const LazyTournamentTable: React.FC<LazyTournamentTableProps> = ({ tournamentId }) => {
   const [data, setData] = useState<TournamentData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -202,3 +202,5 @@ export const LazyTournamentTable: React.FC<LazyTournamentTableProps> = ({ tourna
     </div>
   );
 };
+
+export default LazyTournamentTable;
