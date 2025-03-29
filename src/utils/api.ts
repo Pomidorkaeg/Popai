@@ -202,5 +202,10 @@ export const getTournamentsList = async (): Promise<Tournament[]> => {
 // In a production application, this would be a real API call
 // For now, it's just a placeholder function
 export const fetchTournamentData = async (tournamentId: string): Promise<TournamentData> => {
-  return getTournamentTable(tournamentId);
+  try {
+    return await getTournamentTable(tournamentId);
+  } catch (error) {
+    console.error('Error fetching tournament data:', error);
+    throw error;
+  }
 };
