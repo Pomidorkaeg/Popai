@@ -40,26 +40,6 @@ const Tournaments: React.FC = () => {
     return matchesSearch && matchesStatus;
   });
 
-  if (error) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <Navbar />
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center">
-            <p className="text-red-600 mb-4">{error}</p>
-            <button
-              onClick={() => window.location.reload()}
-              className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
-            >
-              Повторить попытку
-            </button>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
@@ -90,9 +70,23 @@ const Tournaments: React.FC = () => {
           </div>
         </div>
 
-        {loading ? (
+        {error ? (
+          <div className="text-center py-8">
+            <p className="text-red-600 mb-4">{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
+            >
+              Повторить попытку
+            </button>
+          </div>
+        ) : loading ? (
           <div className="flex items-center justify-center h-64">
             <Loader2 className="h-8 w-8 animate-spin text-green-600" />
+          </div>
+        ) : filteredTournaments.length === 0 ? (
+          <div className="text-center py-8 text-gray-600">
+            Турниры не найдены
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
