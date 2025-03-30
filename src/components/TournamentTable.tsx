@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { Loader2 } from 'lucide-react';
+import React from 'react';
 
 interface TournamentTableProps {
   tournamentId: string;
@@ -60,35 +59,7 @@ const mockData: TournamentData = {
 };
 
 const TournamentTable: React.FC<TournamentTableProps> = ({ tournamentId, source }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [data, setData] = useState<TournamentData | null>(null);
-
-  useEffect(() => {
-    // Имитация загрузки данных
-    const timer = setTimeout(() => {
-      setData(mockData);
-      setIsLoading(false);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [tournamentId, source]);
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <Loader2 className="w-8 h-8 animate-spin text-gray-900" />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="text-center py-12">
-        <p className="text-red-600">{error}</p>
-      </div>
-    );
-  }
+  const data = mockData;
 
   if (!data) {
     return null;
