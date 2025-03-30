@@ -4,23 +4,45 @@ import Footer from '@/components/Footer';
 import TournamentCard from '@/components/TournamentCard';
 import TournamentTable from '@/components/TournamentTable';
 import { Filter, Search, ChevronDown, Trophy, AlertCircle } from 'lucide-react';
-import { getTournamentsList, Tournament } from '@/utils/api';
+
+// Временные данные для тестирования
+const mockTournaments = [
+  {
+    id: '1',
+    title: 'Чемпионат России',
+    type: 'championship',
+    season: '2023/2024',
+    teams: 16,
+    source: 'russia',
+    featured: true
+  },
+  {
+    id: '2',
+    title: 'Кубок России',
+    type: 'cup',
+    season: '2023/2024',
+    teams: 32,
+    source: 'russia',
+    featured: false
+  }
+];
 
 const Tournaments = () => {
-  const [tournaments, setTournaments] = useState<Tournament[]>([]);
-  const [selectedTournament, setSelectedTournament] = useState<Tournament | null>(null);
+  const [tournaments, setTournaments] = useState(mockTournaments);
+  const [selectedTournament, setSelectedTournament] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState('all');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
   
   useEffect(() => {
     const loadTournaments = async () => {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await getTournamentsList();
-        setTournaments(data);
+        // Имитация задержки сети
+        await new Promise(resolve => setTimeout(resolve, 500));
+        setTournaments(mockTournaments);
       } catch (error) {
         console.error('Error loading tournaments:', error);
         setError('Не удалось загрузить список турниров');
@@ -32,7 +54,7 @@ const Tournaments = () => {
     loadTournaments();
   }, []);
   
-  const handleTournamentSelect = (tournament: Tournament) => {
+  const handleTournamentSelect = (tournament) => {
     setSelectedTournament(tournament);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
