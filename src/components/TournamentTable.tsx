@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { AlertCircle } from 'lucide-react';
 
 interface TournamentTableProps {
@@ -60,72 +60,32 @@ const mockData: TournamentData = {
 };
 
 const TournamentTable: React.FC<TournamentTableProps> = ({ tournamentId, source }) => {
-  const [data, setData] = useState<TournamentData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    const loadData = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        
-        // Имитация задержки сети
-        await new Promise(resolve => setTimeout(resolve, 500));
-        
-        if (isMounted) {
-          setData(mockData);
-        }
-      } catch (err) {
-        console.error('Error loading tournament data:', err);
-        if (isMounted) {
-          setError('Не удалось загрузить данные турнира');
-        }
-      } finally {
-        if (isMounted) {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    loadData();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [tournamentId, source]);
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-fc-green"></div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center gap-3">
-        <AlertCircle className="w-5 h-5 text-red-500" />
-        <p className="text-red-700">{error}</p>
-      </div>
-    );
-  }
+  const data = mockData;
 
   if (!data) {
-    return null;
+    return (
+      <div className="flex items-center justify-center p-8">
+        <div className="text-center">
+          <AlertCircle className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+          <p className="text-gray-500">Данные турнира недоступны</p>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="bg-white rounded-lg shadow overflow-hidden">
-      <div className="px-4 py-5 sm:px-6">
-        <h3 className="text-lg font-medium text-gray-900">{data.title}</h3>
-        <p className="mt-1 text-sm text-gray-500">Сезон {data.season}</p>
-        <p className="mt-1 text-sm text-gray-500">Обновлено: {data.lastUpdated}</p>
+    <div className="space-y-6">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">{data.title}</h2>
+          <p className="text-gray-500">Сезон {data.season}</p>
+        </div>
+        <p className="text-sm text-gray-500">
+          Последнее обновление: {data.lastUpdated}
+        </p>
       </div>
-      <div className="border-t border-gray-200">
+
+      <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
@@ -151,7 +111,7 @@ const TournamentTable: React.FC<TournamentTableProps> = ({ tournamentId, source 
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500">{team.lost}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500">{team.goalsFor}-{team.goalsAgainst}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500">{team.goalDifference}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-fc-green">{team.points}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-900">{team.points}</td>
               </tr>
             ))}
           </tbody>

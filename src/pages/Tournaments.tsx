@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import TournamentTable from '@/components/TournamentTable';
-import { Filter, Search, ChevronDown, Trophy, AlertCircle } from 'lucide-react';
+import { Filter, Search, ChevronDown, Trophy } from 'lucide-react';
 
 // Временные данные для тестирования
 const mockTournaments = [
@@ -27,19 +27,16 @@ const mockTournaments = [
 ];
 
 const Tournaments = () => {
-  const [tournaments, setTournaments] = useState(mockTournaments);
   const [selectedTournament, setSelectedTournament] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState('all');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   
   const handleTournamentSelect = (tournament) => {
     setSelectedTournament(tournament);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   
-  const filteredTournaments = tournaments
+  const filteredTournaments = mockTournaments
     .filter((tournament) => {
       if (searchQuery) {
         return tournament.title.toLowerCase().includes(searchQuery.toLowerCase());
