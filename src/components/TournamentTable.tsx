@@ -30,7 +30,7 @@ const mockData: TournamentData = {
   name: 'Чемпионат России',
   season: '2023/2024',
   lastUpdated: '2024-03-20',
-  teams: [
+    teams: [
     {
       position: 1,
       name: 'Зенит',
@@ -64,15 +64,15 @@ const TournamentTable: React.FC<TournamentTableProps> = ({ tournamentId, source 
   if (!data) {
     return null;
   }
-
+  
   return (
-    <div>
+        <div>
       <div className="mb-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-2">{data.name}</h2>
         <p className="text-gray-600">Сезон {data.season}</p>
         <p className="text-sm text-gray-500 mt-1">Последнее обновление: {new Date(data.lastUpdated).toLocaleDateString()}</p>
       </div>
-
+      
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
@@ -86,8 +86,8 @@ const TournamentTable: React.FC<TournamentTableProps> = ({ tournamentId, source 
               <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">М</th>
               <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">РМ</th>
               <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">О</th>
-            </tr>
-          </thead>
+              </tr>
+            </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {data.teams.map((team) => (
               <tr key={team.position} className="hover:bg-gray-50">
@@ -100,10 +100,10 @@ const TournamentTable: React.FC<TournamentTableProps> = ({ tournamentId, source 
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500">{team.goalsFor}-{team.goalsAgainst}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500">{team.goalDifference}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-900">{team.points}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
       </div>
     </div>
   );
