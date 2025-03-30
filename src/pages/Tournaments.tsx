@@ -58,9 +58,9 @@ const Tournaments = () => {
       
       <main className="flex-grow pt-16 page-transition">
         {/* Header */}
-        <div className="relative bg-gradient-to-b from-fc-green to-fc-darkGreen text-white py-20">
+        <div className="relative bg-gradient-to-b from-gray-900 to-gray-800 text-white py-20">
           <div 
-            className="absolute inset-0 bg-black/40"
+            className="absolute inset-0 bg-black/60"
             style={{ 
               backgroundImage: `url('https://images.unsplash.com/photo-1459865264687-595d652de67e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')`,
               backgroundSize: 'cover',
@@ -72,7 +72,7 @@ const Tournaments = () => {
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col items-center text-center">
               <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/10 backdrop-blur-sm mb-8 border-2 border-white/20">
-                <Trophy className="w-10 h-10" />
+                <Trophy className="w-10 h-10 text-yellow-400" />
               </div>
               
               <h1 className="text-5xl font-bold mb-6 tracking-tight">Турниры и соревнования</h1>
@@ -98,7 +98,7 @@ const Tournaments = () => {
                   placeholder="Поиск турниров..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full sm:w-64 px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-fc-green focus:border-transparent bg-white shadow-sm"
+                  className="w-full sm:w-64 px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent bg-white shadow-sm"
                 />
                 <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               </div>
@@ -107,7 +107,7 @@ const Tournaments = () => {
                 <select
                   value={filter}
                   onChange={(e) => setFilter(e.target.value)}
-                  className="w-full sm:w-48 px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-fc-green focus:border-transparent appearance-none bg-white shadow-sm"
+                  className="w-full sm:w-48 px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent appearance-none bg-white shadow-sm"
                 >
                   <option value="all">Все турниры</option>
                   <option value="featured">Избранные</option>
@@ -124,7 +124,7 @@ const Tournaments = () => {
               <div 
                 key={tournament.id}
                 onClick={() => handleTournamentSelect(tournament)}
-                className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 cursor-pointer hover:shadow-lg transition-all duration-200 hover:border-fc-green/30"
+                className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 cursor-pointer hover:shadow-lg transition-all duration-200 hover:border-gray-900/30"
               >
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-xl font-bold text-gray-900">{tournament.title}</h3>
