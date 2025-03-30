@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Plus, Search, Pencil, Trash, Save, X, User } from 'lucide-react';
@@ -225,7 +224,7 @@ const PlayersManagement = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       <div className="flex items-center space-x-2">
-                        <span className="px-2 py-1 text-xs rounded bg-blue-100 text-blue-800">{player.matches} матчей</span>
+                        <span className="px-2 py-1 text-xs rounded bg-gray-100 text-gray-800">{player.matches} матчей</span>
                         <span className="px-2 py-1 text-xs rounded bg-green-100 text-green-800">{player.goals} голов</span>
                       </div>
                     </td>
@@ -234,7 +233,7 @@ const PlayersManagement = () => {
                         variant="ghost" 
                         size="sm"
                         onClick={() => handleEdit(player)}
-                        className="text-blue-600 hover:text-blue-900 mr-2"
+                        className="text-gray-600 hover:text-gray-900 mr-2"
                       >
                         <Pencil className="h-4 w-4" />
                       </Button>

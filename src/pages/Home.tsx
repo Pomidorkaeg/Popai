@@ -6,7 +6,7 @@ const Home = () => {
     <div className="space-y-12">
       {/* Hero section */}
       <section className="text-center space-y-6">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-green-600 to-blue-600 text-transparent bg-clip-text">
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-green-600 to-gray-600 text-transparent bg-clip-text">
           Tournament Tables Hub
         </h1>
         <p className="text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto">
@@ -42,8 +42,8 @@ const Home = () => {
         </div>
         
         <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col items-center text-center">
-          <div className="h-12 w-12 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mb-4">
-            <Calendar className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+          <div className="h-12 w-12 rounded-full bg-gray-100 dark:bg-gray-900 flex items-center justify-center mb-4">
+            <Calendar className="h-6 w-6 text-gray-600 dark:text-gray-400" />
           </div>
           <h3 className="text-xl font-semibold mb-2">Расписание матчей</h3>
           <p className="text-slate-600 dark:text-slate-400">

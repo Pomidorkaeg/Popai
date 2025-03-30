@@ -409,19 +409,19 @@ const TeamsManagement = () => {
                         </div>
                       )}
                       {team.socialLinks.instagram && (
-                        <div className="px-3 py-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded text-sm text-white flex items-center">
+                        <div className="px-3 py-1 bg-gray-600 rounded text-sm text-white flex items-center">
                           <Instagram className="w-4 h-4 mr-1" />
                           Instagram
                         </div>
                       )}
                       {team.socialLinks.facebook && (
-                        <div className="px-3 py-1 bg-blue-600 rounded text-sm text-white flex items-center">
+                        <div className="px-3 py-1 bg-gray-600 rounded text-sm text-white flex items-center">
                           <Facebook className="w-4 h-4 mr-1" />
                           Facebook
                         </div>
                       )}
                       {team.socialLinks.twitter && (
-                        <div className="px-3 py-1 bg-blue-400 rounded text-sm text-white flex items-center">
+                        <div className="px-3 py-1 bg-gray-400 rounded text-sm text-white flex items-center">
                           <Twitter className="w-4 h-4 mr-1" />
                           Twitter
                         </div>
