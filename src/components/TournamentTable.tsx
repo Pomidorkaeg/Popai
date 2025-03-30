@@ -1,5 +1,5 @@
-import React from 'react';
-import { AlertCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Loader2 } from 'lucide-react';
 
 interface TournamentTableProps {
   tournamentId: string;
@@ -20,7 +20,7 @@ interface Team {
 }
 
 interface TournamentData {
-  title: string;
+  name: string;
   season: string;
   lastUpdated: string;
   teams: Team[];
@@ -28,61 +28,78 @@ interface TournamentData {
 
 // Временные данные для тестирования
 const mockData: TournamentData = {
-  title: "Тестовый турнир",
-  season: "2023/2024",
-  lastUpdated: new Date().toLocaleDateString(),
+  name: 'Чемпионат России',
+  season: '2023/2024',
+  lastUpdated: '2024-03-20',
   teams: [
     {
       position: 1,
-      name: "Команда 1",
-      played: 10,
-      won: 7,
-      drawn: 2,
-      lost: 1,
-      goalsFor: 25,
-      goalsAgainst: 8,
-      goalDifference: 17,
-      points: 23
+      name: 'Зенит',
+      played: 20,
+      won: 15,
+      drawn: 3,
+      lost: 2,
+      goalsFor: 45,
+      goalsAgainst: 15,
+      goalDifference: 30,
+      points: 48
     },
     {
       position: 2,
-      name: "Команда 2",
-      played: 10,
-      won: 6,
-      drawn: 3,
-      lost: 1,
-      goalsFor: 20,
-      goalsAgainst: 10,
-      goalDifference: 10,
-      points: 21
+      name: 'ЦСКА',
+      played: 20,
+      won: 14,
+      drawn: 4,
+      lost: 2,
+      goalsFor: 40,
+      goalsAgainst: 18,
+      goalDifference: 22,
+      points: 46
     }
   ]
 };
 
 const TournamentTable: React.FC<TournamentTableProps> = ({ tournamentId, source }) => {
-  const data = mockData;
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [data, setData] = useState<TournamentData | null>(null);
 
-  if (!data) {
+  useEffect(() => {
+    // Имитация загрузки данных
+    const timer = setTimeout(() => {
+      setData(mockData);
+      setIsLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [tournamentId, source]);
+
+  if (isLoading) {
     return (
-      <div className="flex items-center justify-center p-8">
-        <div className="text-center">
-          <AlertCircle className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-500">Данные турнира недоступны</p>
-        </div>
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="w-8 h-8 animate-spin text-gray-900" />
       </div>
     );
   }
 
+  if (error) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-red-600">{error}</p>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return null;
+  }
+
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900">{data.title}</h2>
-          <p className="text-gray-500">Сезон {data.season}</p>
-        </div>
-        <p className="text-sm text-gray-500">
-          Последнее обновление: {data.lastUpdated}
-        </p>
+    <div>
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">{data.name}</h2>
+        <p className="text-gray-600">Сезон {data.season}</p>
+        <p className="text-sm text-gray-500 mt-1">Последнее обновление: {new Date(data.lastUpdated).toLocaleDateString()}</p>
       </div>
 
       <div className="overflow-x-auto">

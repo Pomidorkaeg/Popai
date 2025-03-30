@@ -24,7 +24,7 @@ const TeamsManagement = lazy(() => import("./pages/admin/TeamsManagement"));
 // Fallback loading component
 const PageLoading = () => (
   <div className="flex h-screen w-full items-center justify-center">
-    <div className="h-10 w-10 animate-spin rounded-full border-4 border-fc-green border-t-transparent"></div>
+    <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-900 border-t-transparent"></div>
   </div>
 );
 
@@ -53,7 +53,6 @@ const App = () => {
               <Route path="players" element={<PlayersManagement />} />
               <Route path="coaches" element={<CoachesManagement />} />
               <Route path="teams" element={<TeamsManagement />} />
-              <Route path="tournaments" element={<AdminHome />} />
             </Route>
             
             {/* 404 */}

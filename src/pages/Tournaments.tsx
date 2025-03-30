@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import TournamentTable from '@/components/TournamentTable';
-import { Filter, Search, ChevronDown, Trophy } from 'lucide-react';
+import { Search, ChevronDown, Trophy } from 'lucide-react';
 
 // Временные данные для тестирования
 const mockTournaments = [
@@ -53,7 +53,7 @@ const Tournaments = () => {
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
       
-      <main className="flex-grow pt-16 page-transition">
+      <main className="flex-grow pt-16">
         {/* Header */}
         <div className="relative bg-gradient-to-b from-gray-900 to-gray-800 text-white py-20">
           <div 
