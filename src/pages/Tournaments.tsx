@@ -34,25 +34,6 @@ const Tournaments = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   
-  useEffect(() => {
-    const loadTournaments = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        // Имитация задержки сети
-        await new Promise(resolve => setTimeout(resolve, 500));
-        setTournaments(mockTournaments);
-      } catch (error) {
-        console.error('Error loading tournaments:', error);
-        setError('Не удалось загрузить список турниров');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    
-    loadTournaments();
-  }, []);
-  
   const handleTournamentSelect = (tournament) => {
     setSelectedTournament(tournament);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -135,46 +116,35 @@ const Tournaments = () => {
             </div>
           </div>
           
-          {isLoading ? (
-            <div className="flex items-center justify-center py-12">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-fc-green"></div>
-            </div>
-          ) : error ? (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center gap-3">
-              <AlertCircle className="w-5 h-5 text-red-500" />
-              <p className="text-red-700">{error}</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredTournaments.map((tournament) => (
-                <div 
-                  key={tournament.id}
-                  onClick={() => handleTournamentSelect(tournament)}
-                  className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 cursor-pointer hover:shadow-md transition-shadow"
-                >
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-gray-900">{tournament.title}</h3>
-                    {tournament.featured && (
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-fc-green/10 text-fc-green">
-                        Избранное
-                      </span>
-                    )}
-                  </div>
-                  <div className="space-y-2">
-                    <p className="text-sm text-gray-500">
-                      <span className="font-medium">Тип:</span> {tournament.type === 'championship' ? 'Чемпионат' : 'Кубок'}
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      <span className="font-medium">Сезон:</span> {tournament.season}
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      <span className="font-medium">Команд:</span> {tournament.teams}
-                    </p>
-                  </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredTournaments.map((tournament) => (
+              <div 
+                key={tournament.id}
+                onClick={() => handleTournamentSelect(tournament)}
+                className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 cursor-pointer hover:shadow-md transition-shadow"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900">{tournament.title}</h3>
+                  {tournament.featured && (
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-fc-green/10 text-fc-green">
+                      Избранное
+                    </span>
+                  )}
                 </div>
-              ))}
-            </div>
-          )}
+                <div className="space-y-2">
+                  <p className="text-sm text-gray-500">
+                    <span className="font-medium">Тип:</span> {tournament.type === 'championship' ? 'Чемпионат' : 'Кубок'}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    <span className="font-medium">Сезон:</span> {tournament.season}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    <span className="font-medium">Команд:</span> {tournament.teams}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
         </section>
         
         {/* Selected Tournament Table */}
