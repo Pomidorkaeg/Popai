@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import TournamentCard from '@/components/TournamentCard';
-import LazyTournamentTable from '@/components/LazyTournamentTable';
+import TournamentTable from '@/components/TournamentTable';
 import { Filter, Search, ChevronDown, Trophy } from 'lucide-react';
 import { getTournamentsList, Tournament } from '@/utils/api';
 
@@ -131,7 +131,7 @@ const Tournaments = () => {
         {/* Selected Tournament Table */}
         {selectedTournament && (
           <section className="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-            <LazyTournamentTable 
+            <TournamentTable 
               tournamentId={selectedTournament.id} 
               source={selectedTournament.source} 
             />
