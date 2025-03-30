@@ -14,8 +14,12 @@ const Tournaments = () => {
   
   useEffect(() => {
     const loadTournaments = async () => {
-      const data = await getTournamentsList();
-      setTournaments(data);
+      try {
+        const data = await getTournamentsList();
+        setTournaments(data);
+      } catch (error) {
+        console.error('Error loading tournaments:', error);
+      }
     };
     
     loadTournaments();

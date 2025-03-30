@@ -1,7 +1,5 @@
-
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { ChevronRight, Trophy } from 'lucide-react';
+import { Trophy } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface TournamentCardProps {
@@ -15,7 +13,6 @@ interface TournamentCardProps {
 }
 
 const TournamentCard: React.FC<TournamentCardProps> = ({
-  id,
   title,
   type,
   season,
@@ -24,8 +21,7 @@ const TournamentCard: React.FC<TournamentCardProps> = ({
   featured = false,
 }) => {
   return (
-    <Link
-      to={`/tournaments/${id}`}
+    <div
       className={cn(
         "block rounded-xl overflow-hidden card-hover border transition-all duration-300",
         featured 
@@ -67,15 +63,14 @@ const TournamentCard: React.FC<TournamentCardProps> = ({
           </div>
           
           <div className={cn(
-            "flex items-center text-sm font-medium",
+            "text-sm font-medium",
             featured ? "text-fc-green" : "text-gray-600"
           )}>
             Источник: {source}
-            <ChevronRight size={16} className="ml-1" />
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 
