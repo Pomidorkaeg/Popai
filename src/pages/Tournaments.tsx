@@ -3,7 +3,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import TournamentCard from '@/components/TournamentCard';
 import TournamentTable from '@/components/TournamentTable';
-import { Filter, Search, ChevronDown, Trophy } from 'lucide-react';
+import { Filter, Search, ChevronDown, Trophy, AlertCircle } from 'lucide-react';
 import { getTournamentsList, Tournament } from '@/utils/api';
 
 const Tournaments = () => {
@@ -11,14 +11,21 @@ const Tournaments = () => {
   const [selectedTournament, setSelectedTournament] = useState<Tournament | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState('all');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   
   useEffect(() => {
     const loadTournaments = async () => {
       try {
+        setIsLoading(true);
+        setError(null);
         const data = await getTournamentsList();
         setTournaments(data);
       } catch (error) {
         console.error('Error loading tournaments:', error);
+        setError('Не удалось загрузить список турниров');
+      } finally {
+        setIsLoading(false);
       }
     };
     
@@ -107,25 +114,36 @@ const Tournaments = () => {
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredTournaments.map((tournament) => (
-              <div 
-                key={tournament.id}
-                onClick={() => handleTournamentSelect(tournament)}
-                className="cursor-pointer"
-              >
-                <TournamentCard
-                  id={tournament.id}
-                  title={tournament.title}
-                  type={tournament.type}
-                  season={tournament.season}
-                  teams={tournament.teams}
-                  source={tournament.source}
-                  featured={tournament.featured}
-                />
-              </div>
-            ))}
-          </div>
+          {isLoading ? (
+            <div className="flex items-center justify-center py-12">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-fc-green"></div>
+            </div>
+          ) : error ? (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center gap-3">
+              <AlertCircle className="w-5 h-5 text-red-500" />
+              <p className="text-red-700">{error}</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredTournaments.map((tournament) => (
+                <div 
+                  key={tournament.id}
+                  onClick={() => handleTournamentSelect(tournament)}
+                  className="cursor-pointer"
+                >
+                  <TournamentCard
+                    id={tournament.id}
+                    title={tournament.title}
+                    type={tournament.type}
+                    season={tournament.season}
+                    teams={tournament.teams}
+                    source={tournament.source}
+                    featured={tournament.featured}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
         </section>
         
         {/* Selected Tournament Table */}
