@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import TournamentCard from '@/components/TournamentCard';
 import TournamentTable from '@/components/TournamentTable';
 import { Filter, Search, ChevronDown, Trophy, AlertCircle } from 'lucide-react';
 
@@ -151,17 +150,27 @@ const Tournaments = () => {
                 <div 
                   key={tournament.id}
                   onClick={() => handleTournamentSelect(tournament)}
-                  className="cursor-pointer"
+                  className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 cursor-pointer hover:shadow-md transition-shadow"
                 >
-                  <TournamentCard
-                    id={tournament.id}
-                    title={tournament.title}
-                    type={tournament.type}
-                    season={tournament.season}
-                    teams={tournament.teams}
-                    source={tournament.source}
-                    featured={tournament.featured}
-                  />
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-gray-900">{tournament.title}</h3>
+                    {tournament.featured && (
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-fc-green/10 text-fc-green">
+                        Избранное
+                      </span>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-sm text-gray-500">
+                      <span className="font-medium">Тип:</span> {tournament.type === 'championship' ? 'Чемпионат' : 'Кубок'}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      <span className="font-medium">Сезон:</span> {tournament.season}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      <span className="font-medium">Команд:</span> {tournament.teams}
+                    </p>
+                  </div>
                 </div>
               ))}
             </div>
