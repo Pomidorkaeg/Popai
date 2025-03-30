@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { AlertCircle } from 'lucide-react';
-import { getTournamentTable } from '@/utils/api';
 
 interface TournamentTableProps {
   tournamentId: string;
@@ -27,6 +26,39 @@ interface TournamentData {
   teams: Team[];
 }
 
+// Временные данные для тестирования
+const mockData: TournamentData = {
+  title: "Тестовый турнир",
+  season: "2023/2024",
+  lastUpdated: new Date().toLocaleDateString(),
+  teams: [
+    {
+      position: 1,
+      name: "Команда 1",
+      played: 10,
+      won: 7,
+      drawn: 2,
+      lost: 1,
+      goalsFor: 25,
+      goalsAgainst: 8,
+      goalDifference: 17,
+      points: 23
+    },
+    {
+      position: 2,
+      name: "Команда 2",
+      played: 10,
+      won: 6,
+      drawn: 3,
+      lost: 1,
+      goalsFor: 20,
+      goalsAgainst: 10,
+      goalDifference: 10,
+      points: 21
+    }
+  ]
+};
+
 const TournamentTable: React.FC<TournamentTableProps> = ({ tournamentId, source }) => {
   const [data, setData] = useState<TournamentData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -40,10 +72,11 @@ const TournamentTable: React.FC<TournamentTableProps> = ({ tournamentId, source 
         setIsLoading(true);
         setError(null);
         
-        const result = await getTournamentTable(tournamentId, source);
+        // Имитация задержки сети
+        await new Promise(resolve => setTimeout(resolve, 500));
         
         if (isMounted) {
-          setData(result);
+          setData(mockData);
         }
       } catch (err) {
         console.error('Error loading tournament data:', err);
@@ -90,6 +123,7 @@ const TournamentTable: React.FC<TournamentTableProps> = ({ tournamentId, source 
       <div className="px-4 py-5 sm:px-6">
         <h3 className="text-lg font-medium text-gray-900">{data.title}</h3>
         <p className="mt-1 text-sm text-gray-500">Сезон {data.season}</p>
+        <p className="mt-1 text-sm text-gray-500">Обновлено: {data.lastUpdated}</p>
       </div>
       <div className="border-t border-gray-200">
         <table className="min-w-full divide-y divide-gray-200">
